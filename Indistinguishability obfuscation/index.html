@@ -1,0 +1,1293 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/yotsuba.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Indistinguishability obfuscation - Quaramblog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lobfuscation-indistinguable-io" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Quaramblog" class="md-header__button md-logo" aria-label="Quaramblog" data-md-component="logo">
+      
+  <img src="../assets/yotsuba.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quaramblog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Indistinguishability obfuscation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Quaramblog" class="md-nav__button md-logo" aria-label="Quaramblog" data-md-component="logo">
+      
+  <img src="../assets/yotsuba.png" alt="logo">
+
+    </a>
+    Quaramblog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome to the Quaramblog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indistinguishability obfuscation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indistinguishability obfuscation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gghrsw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GGHRSW
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GGHRSW">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#circuit-booleen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Circuit booléen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transformer-le-circuit-en-matrice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transformer le circuit en matrice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomisation-de-kilian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Randomisation de Kilian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ggh13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GGH13
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GGH13">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ajouter-du-bruit-et-pouvoir-le-retirer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ajouter du bruit et pouvoir le retirer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diviser-par-un-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diviser par un secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero-test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prf-pseudo-random-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRF (Pseudo random function)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fe-functional-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FE (Functional Encryption)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-test_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experimentations-personnelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expérimentations personnelles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Expérimentations personnelles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemple-avec-des-courbes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exemple avec des courbes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemple avec des courbes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gghrsw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GGHRSW
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GGHRSW">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#circuit-booleen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Circuit booléen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transformer-le-circuit-en-matrice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transformer le circuit en matrice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomisation-de-kilian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Randomisation de Kilian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ggh13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GGH13
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GGH13">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ajouter-du-bruit-et-pouvoir-le-retirer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ajouter du bruit et pouvoir le retirer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diviser-par-un-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diviser par un secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero-test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prf-pseudo-random-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRF (Pseudo random function)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fe-functional-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FE (Functional Encryption)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-test_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experimentations-personnelles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expérimentations personnelles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Expérimentations personnelles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exemple-avec-des-courbes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exemple avec des courbes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemple avec des courbes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sources
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<pre><code>
+🤖 L'IA a été utilisée pour faciliter la collecte d'informations et expliquer 
+des concepts mathématiques présentés de manière très abrupte dans les articles
+de recherche sur le sujet. Cependant, l'ensemble du contenu et des calculs ont 
+été rédigés par un humain (sauf mention contraire).
+
+Cet article a pour but de présenter et d'expliquer de façon accessible un sujet 
+aussi complexe que l'iO sans pour autant faire de concessions avec la réalité du sujet. 
+Si une erreur est présente dans cette papier merci de m'en faire part.
+</code></pre>
+<h1 id="lobfuscation-indistinguable-io">L'obfuscation indistinguable (iO)</h1>
+<p>L'objectif est de pouvoir rendre le code publique mais mathématiquement impossible à reverse. Ce type de méthode pourrait permettre, entre autre, de rendre tous les logiciels propriétaires et close source on-premise, de faire des calculs sur des block chains décentralisées publiques sans que les données le soit ; mais surtout pourrait rendre possible la cryptographie en boite blanche. </p>
+<p>La cryptographie en boite blanche est le dernier maillon de la cybersécurité en profondeur, puisqu'elle étudie un moyen de faire en sorte que même si un attaquant avait accès au code source il ne pourrait récupérer le secret dans le logiciel de chiffrement ; ce qui permettrait une continuité de la confidentialité des données malgré la compromission totale du système. Pour un attaquant il est <em>impossible d'extraire une information plus utile que s'il avait simplement utilisé le programme comme une "boite noire".</em></p>
+<p>Il existe plusieurs schéma (algo) d'iO mais à ce jour aucune méthode parfaite n'a été trouvé ou implémentée dans une solution utilisable.</p>
+<p>Là où l'obfuscation classique consiste en une sorte de "bricolage" qui a pour but de ralentir les attaquants :</p>
+<pre><code class="language-py">&gt;&gt;&gt; print(&quot;Hello world !&quot;)
+Hello world !
+
+&gt;&gt;&gt; exec(bytes([112,114,105,110,116,40,34,72,101,108,108,111,32,119,111,114,108,100,32,33,34,41]).decode())
+Hello world !
+</code></pre>
+<p>les schémas d'obfuscation indistinguable souhaitent transformer le programme en une immense équation mathématique chiffrée, si bien qu'il faudrait des années pour en extraire la logique réelle.</p>
+<p>L'un des tout premiers schéma candidat est GGHRSW du nom de ces créateurs : Sanjam Garg, Craig Gentry, Shai Halevi, Mariana Raykova, Amit Sahai, and Brent Waters</p>
+<h2 id="gghrsw">GGHRSW</h2>
+<p>Pour un algorithme donné :</p>
+<pre><code>a = 5
+b = 7
+c = a + b
+</code></pre>
+<p>Le GGHRSW va appliquer plusieurs étapes :</p>
+<pre><code>1. Le transformer en circuit booléen
+2. Transformer le circuit booléen en &quot;matrices&quot; grâce au théorème de Barrington
+3. Ajout du bruit grâce à la Randomisation de Kilian
+4. Appliquer GGH13 et déduire le résultat du programme
+</code></pre>
+<h3 id="circuit-booleen">Circuit booléen</h3>
+<p>La première étape consiste à transformer le programme en circuit booléen.</p>
+<p>Le circuit booléen classique pour une addition est le suivant : Ripple Carry Adder (RCA)</p>
+<p><img alt="" src="../indistinguishability_obfuscation/RCA.png" /></p>
+<pre><code class="language-py">a = [1, 0, 1]  # 5
+b = [1, 1, 1]  # 7
+
+sum_res = []
+
+Cin = 0
+for i in range(3):
+    sum_res.append(a[i] ^ b[i] ^ Cin)
+    Cin = (a[i] &amp; b[i]) | (Cin &amp; (a[i] ^ b[i]))
+
+sum_res.append(Cin)
+
+assert sum_res == [0, 0, 1, 1] # 1100 = 12
+</code></pre>
+<p>Cependant le théorème de Barrington (dont on va avoir besoin pour transformer notre circuit booléen en matrices) ne fonctionne efficacement que pour les circuits "appartenant à la classe de complexité NC1", c'est à dire des circuits de profondeur logarithmique dans lesquels même si la taille du problème devient gigantesque, le nombre d'étapes pour le résoudre augmente très lentement.</p>
+<p>Par exemple pour les tournoi sportif on ne fait pas s'affronter chaque équipe les une avec les autres "en série". On organise des 1/8, puis des 1/4 jusqu'a la finale.</p>
+<p>Le problème avec la première version de notre additioneur booléen c'est qu'on doit attendre la retenu "Cout" du second half-adder pour après envoyer les deux retenu dans un OR. Si on essaye d'obfusquer un circuit de profondeur linéaire (la profondeur de RCA dépend de la taille des éléments à additioner), la taille du programme obfusqué est exponentielle.</p>
+<p>On doit donc utiliser un autre algorithme pour l'addition de profondeur logarithmique : Carry-Lookahead Adder, qui lui fonctionne à la manière d'un tournoi et parrallélise le calcul : https://en.wikipedia.org/wiki/Carry-lookahead_adder</p>
+<h3 id="transformer-le-circuit-en-matrice">Transformer le circuit en matrice</h3>
+<p>Théorème de Barrington : "Tout ce qui peut être calculé par un circuit de profondeur logarithmique NC1, peut être transformé en une suite de permutations dans un groupe fini (le groupe symétrique S5)."</p>
+<ul>
+<li>
+<p>permutations : façon de ranger les éléments, par exemple les permutations de [1, 2, 3] sont [3, 2, 1] [1, 3, 2] [2, 3, 1] etc..</p>
+</li>
+<li>
+<p>suite de permutations : appliquer plusieurs permutations les unes après les autres</p>
+</li>
+<li>
+<p>le groupe symétrique S5 : toutes les fonctions de permutations possibles sur 5 éléments</p>
+</li>
+</ul>
+<p><em>Tout programme NC1 peut être simulé avec des permutations de tableau de taille 5.</em></p>
+<p>Concretement le circuit booléen de l'addition utilise la porte logique XOR (ou exclusif). Il se trouve que le XOR consiste juste à faire pour a XOR b :</p>
+<pre><code>if (a == 1): swap
+if (b == 1): swap
+</code></pre>
+<p>Ainsi :</p>
+<pre><code>a XOR b
+1   0   swap
+0   1   swap
+0   0   ne rien faire
+1   1   swap + swap (les deux if sont valide)
+</code></pre>
+<p>Cas a=1 et b=1 : double swap</p>
+<pre><code>[a, b]
+
+swap
+[b, a]
+
+swap
+[a, b]
+</code></pre>
+<p>Pour récupérer le résultat :</p>
+<pre><code>si a est avant b le résultat du XOR est 0
+si b est avant a le résultat du XOR est 1
+</code></pre>
+<p>Le logiciel qui va faire ça s'appelle le "Branching Program" et ces suites de permutation peuvent être representées par des matrices.</p>
+<h3 id="randomisation-de-kilian">Randomisation de Kilian</h3>
+<p>L'objectif de cette méthode va être de rajouter des actions inutiles qui vont créent du bruit et se résoudre au fur et a mesure.</p>
+<p>Par exemple :</p>
+<pre><code>a XOR b
+0   0   ne rien faire
+1   0   swap
+0   1   swap
+1   1   swap + useless_rotation + swap + fix_useless_rotation
+</code></pre>
+<pre><code>Cas a=1 et b=1
+[a, b, c, d]
+
+swap
+[b, a, c, d]
+
+useless_rotation
+[d, c, a, b]
+
+swap
+[c, d, a, b]
+
+fix_useless_rotation
+[b, a, d, c]
+
+swap
+[a, b, d, c]
+</code></pre>
+<pre><code>si a est avant b le résultat du XOR est 0
+si b est avant a le résultat du XOR est 1
+</code></pre>
+<h3 id="ggh13">GGH13</h3>
+<hr />
+<p>Pour expliquer GGH13 le plus simple est d'utiliser des nombres entier. Ce modèle est appelé CLT13 la logique interne est identique mais le véritable GGH13 utilise des "polynômes", des "réseaux euclidiens" et l'opération modulo devient une "réduction par rapport à un grand polynôme".</p>
+<p>La raison de l'ajout de cette complexité est l'algorithme d'Euclide qui permet de trouver les diviseurs communs entre plusieurs nombres et donc de déduire les variables internes.</p>
+<hr />
+<p>La randomisation de Kilian nous donne des matrices "brouillées". Avec GGH13 on va réaliser un "encodage homomorphe gradué" mais les résultats qui vont en sortir une fois déchiffrés seront corrects. On bénéficie ici des caractéristiques homomorphes du chiffrement.</p>
+<p>Les matrices obtenues après l'encodage GGH13 vont respecter la caractéristique suivante :</p>
+<pre><code>chiffre(M1) * chiffre(M2) = chiffre(M1 * M2)
+</code></pre>
+<h4 id="ajouter-du-bruit-et-pouvoir-le-retirer">Ajouter du bruit et pouvoir le retirer</h4>
+<pre><code>value_clear = la véritable valeur mathématique
+e = value_clear + un bruit initial
+g = secret
+r = bruit aléatoire
+z = autre secret (sert à gérer les niveaux)
+q = grand modulo (évite que les résultat grandissent trop (même problématique que les tables de hashage))
+
+e = 5
+g = 3
+value_clear = e mod g
+value_clear = 5 mod 3
+value_clear = 2
+</code></pre>
+<p><em>La partie difficile à comprendre ici c'est que la véritable valeur avec laquel on va faire les calcules (2) est contenu à l'intérieur de e et pourra être récupéré via e mod g.</em></p>
+<pre><code>r = 4
+
+value_bruité = e + r * g
+             = 5 + 4 * 3 
+             = 17
+</code></pre>
+<p>Malgré ce calcul si on possède g on peut retrouver e mod g et donc retirer le bruit :</p>
+<pre><code>value_clear = value_bruité mod g
+            = 17 mod 3
+            = 2
+</code></pre>
+<p>Au final on retombe sur notre véritable value_clear, ce qui veut dire que <code>e (mod g)</code> == <code>e + r * g (mod g)</code>.</p>
+<h4 id="diviser-par-un-secret">Diviser par un secret</h4>
+<pre><code>value_bruité = 17
+z = 2
+q = 101
+
+value_chiffre = value_bruité * z⁻¹ mod q
+</code></pre>
+<p>z⁻¹ dans un autre context pourrait juste vouloir dire 2 puissance -1 (0.5), mais ce calcul donne un nombre à virgule hors on a besoin de faire un modulo de cette valeur ce qui nécessite un entier. Le véritable sens de ce calcul est : "Quel est le nombre entier qui, lorsqu'on le multiplie par z, donne un reste de 1 quand on le divise par q ?"</p>
+<pre><code>(x * z) % q = 1
+(x * 2) % 101 = 1
+</code></pre>
+<p>Comme dans ce cas q est un nombre premier on peut appliquer le théorème de Fermat :</p>
+<pre><code>z⁻¹ = z ** q-2 (mod q)
+z⁻¹ = 2⁹⁹ (mod 101) = ?
+
+2 ** 99 = 633825300114114700748351602688
+633825300114114700748351602688 % 101 = 51
+</code></pre>
+<pre><code>value_chiffre = value_bruité * 51
+value_chiffre = 17 * 51
+value_chiffre = 867
+</code></pre>
+<p>Pour déchiffrer on fait :</p>
+<pre><code>value_bruité = value_chiffre * z mod q
+value_bruité = 867 * 2 mod 101
+value_bruité = 17
+</code></pre>
+<p>Puis, comme dans la partie 1, on enlève le bruit avec g :</p>
+<pre><code>value_clear = value_bruité mod g
+value_clear = 17 mod 3
+value_clear = 2
+</code></pre>
+<p><strong>Mais chiffrer et dechiffrer ici ce n'est pas la finalité, on veut pouvoir faire des calcules avec nos valeurs chiffré et obtenir des résultats correct une fois déchiffré.</strong> cf : chiffrement homomorphe</p>
+<h4 id="additions">Additions</h4>
+<p>y1 et y2 vont contenir nos deux valeur bruité et chiffré :</p>
+<pre><code>e1 = 5
+r1 = 4
+
+e2 = 6
+r2 = 7
+
+g = 3
+z = 2
+q = 101
+
+y1_value = e mod g
+         = 5 mod 3
+         = 2
+
+y1 = (e1 + r1*g) * z⁻¹ mod q
+   = (5 + 4*3) * 2⁻¹ mod 101
+   = 867 mod 101
+   = 59
+
+y2_value = e mod g
+         = 6 mod 3
+         = 0
+
+y2 = (e2 + r2*g) * z⁻¹ mod q
+   = (6 + 7*3) * 2⁻¹ mod 101
+   = 39 * 51
+   = 1989 mod 101
+   = 64
+</code></pre>
+<p>On peut les additionners ainsi :</p>
+<pre><code>y1 + y2 = y1 + y2 (mod q)
+        = 59 + 64 (mod 101)
+        = 123 (mod 101)
+        = 22
+</code></pre>
+<p>Pour  déchiffrer le résultat on retire z⁻¹ :</p>
+<pre><code>result_bruité = value_chiffre * z mod q
+              = 22 * 2 mod 101 = 44
+</code></pre>
+<p>Enfin on peu retirer le bruit :</p>
+<pre><code>result_clear = result_bruité mod g
+             = 44 mod 3 = 2
+</code></pre>
+<p>Ce qui est correct car y1=2 et y2=0.</p>
+<h4 id="multiplication">Multiplication</h4>
+<pre><code>e1 = 5
+r1 = 4
+y1_value = 5 mod 3
+         = 2
+e2 = 6
+r2 = 7
+y1_value = 6 mod 3
+         = 0
+g = 3
+z = 2
+q = 1009 (q doit être plus grand que pour les additions sinon on a des collisions)
+
+On recalcule z⁻¹ pour q=1009 :
+z⁻¹ = 2 ** q-2 % 1009
+    = 2 ** 1007 % 1009
+    = 505
+
+y1_chiffre = (e1 + r1*g) * z⁻¹ mod q
+   = (5 + 4*3) * 505 mod 1009
+   = 17 * 505 mod 1009
+   = 8585 mod 1009
+   = 513
+
+y2_chiffre = (e2 + r2*g) * z⁻¹ mod q
+   = (6 + 7*3) * 505 mod 1009
+   = 27 * 505 mod 1009
+   = 13635 mod 1009
+   = 518
+</code></pre>
+<p>On peut les multipliers :</p>
+<pre><code>y1 * y2 = 513 * 518 (mod 1009)
+        = 265734 (mod 1009)
+        = 367
+</code></pre>
+<p>Pour récupérer le résultat après déchiffrement : Comme on a fait une mutliplication on "augmente le niveau". C'est pour ça qu'on parle d'une méthode de chiffrement par niveaux. On incrémente la puissance de z pour chaque multiplication :</p>
+<pre><code>
+z = 2
+z² = 4
+
+result_bruité = value_chiffre * z² mod q
+             = 367 * 4 mod 1009
+            = 1468 mod 1009
+            = 459
+
+result_clear = result_bruité mod g
+             = 459 mod 3 
+             = 0
+
+2 * 0 = 0 c'est donc le bon résultat.
+</code></pre>
+<h3 id="zero-test">Zero-test</h3>
+<p>Pour rappel l'objectif est de donner un programme à un utilisateur pour qu'il l'exécute, sans qu'il ne puisse jamais comprendre comment le programme fonctionne ni lire ses variables internes.</p>
+<p>Dans notre exemple on déchiffre le résultat finale avec z et g mais c'est pas l'objectif du schéma GGHRSW, car si l'utilisateur possède z et g il peut aussi déchiffrer toutes les couches du programme. L'objectif c'est que l'utilisateur puisse juste savoir si, par exemple, le mot de passe qu'il donne au programme est correct (1) ou non (0).</p>
+<p>Grâce au théorème de Barrington, on s'arrange pour que si le calcul est vrai, la multiplication de toutes nos matrices donne une "matrice identité" (matrice qui multipliée à une autre ne change rien (l'équivalent du *1 ou +1 pour la multiplication et l'addition)).</p>
+<pre><code>I2 = [[1, 0],
+      [0, 1]]
+
+I3 = [[1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1]]
+</code></pre>
+<p>Si le calcul est faux, la multiplication donne n'importe quelle autre matrice.</p>
+<p>Dans le cas du test de mot de passe, l'utilisateur va donc entrer le sien dans le programme et obtenir une matrice M_result. On veut savoir si M_result est égale à la matrice identité M_I (Le créateur du programme a fourni à l'avance une version chiffrée de l'M_I enc(M_I) pour permettre ce calcul). On réalise donc une soustraction homomorphe : </p>
+<pre><code>M_diff = M_result - enc(M_I)
+</code></pre>
+<p>M_diff est toujours bruité, il faut donc multiplier les éléments de M_diff par le paramètre p_zt (le tout avec un modulo q). Si le résultat est petit c'est que ce qui se cache à l'intérieur de la matrice est 0. Sinon c'est que le mot de passe est faux.</p>
+<p>Qu'est ce que p_zt ? Dans un système de chiffrement classique il faut les clés pour récupérer le résultat. Ici on veut pas rendre les clé publique et on veut juste tester si le résultat est 0. Le créateur du programme génère p_zt ainsi :</p>
+<pre><code>p_zt = h * (z**k) * g ** -1 (mod q)
+</code></pre>
+<p>Exemple : </p>
+<pre><code>g = 3 (le secret qui cache la valeur)
+z = 2 (le secret des niveaux)
+q = 1009 (le grand modulo)
+h = 5 (le petit bruit du paramètre de test)
+k = 2 (on imagine qu'on a fait une multiplication, on est au niveau 2)
+
+z ** k = 2 ** 2 
+       = 4
+
+p_zt = 5 * 4 * (g ** -1) (mod 1009)
+
+g ** -1 mod 1009 = pow(3, -1, 1009) = 673
+
+     = 5 *4 * 673 (mod 1009)
+     = 13460 (mod 1009)
+     = 343
+</code></pre>
+<p>Comment faire le test avec p_zt = 343 ?</p>
+<pre><code>Cas où la valeur est 0 (mot de passe correct) :
+*et où le bruit accumulé = 2
+
+z ** -2 = (z ** (q-2)) ** 2 (mod q)
+        = 2 ** (1009-3) (mod 1009)
+        = 2 ** 1006 (mod 1009)
+        = 757
+
+c = (0 + bruit * g) * z ** -k (mod q)
+  = (0 + 2 * 3) * z ** -k (mod q)
+  = 6 * 757 (mod 1009)
+  = 4542 (mod 1009)
+  = 506
+
+test = 506 * 343 (mod 1009)
+     = 173558 (mod 1009)
+     = 10
+</code></pre>
+<p>10 est considéré comme petit dans ce context, surtout par rapport à un cas ou la valeur contenu dans c n'est pas 0 :</p>
+<pre><code>Cas ou la valeur est 6 (mot de passe incorrect) :
+*et ou le bruit accumulé = 2
+
+c = (6 + 2 * 3) * 757 (mod 1009)
+  = 7 * 757 (mod 1009)
+  = 254
+
+test = 254 * 343 (mod 1009)
+     = 348
+</code></pre>
+<p>La raison pour laquelle le test fonctionne c'est que le résultat est un multiple de g, et que quand on le multiplie avec p_zt (lui même multiple de g), le modulo par g de ce résultat est 0. Il ne reste que le petit bruit dont est constitué le nombre finale.</p>
+<h2 id="limitations">Limitations</h2>
+<p>Transformer un programme réel en circuit NC1 est extremement difficile et il n'existe pas de méthode générique permettant de transformer du C en circuit NC1.</p>
+<p>GGHRSW n'existe que sous la forme d'implémentations expérimentales. De plus il utilise l'outil cryptographique GGH13 qui est vulnérables à plusieurs attaques.</p>
+<p>Zeroizing Attack :
+   Si l'attaquant réussit à récupérer plusieurs encodages de la valeur 0 (il rejoue le programme). En appliquant p_zt sur ces valeurs il obtient une collection de valeur qui ont toutes la forme (bruit * h). En accumulant ces résultats, l'attaquant peut "isoler" les secrets.</p>
+<p>Attaque par Annihilation :
+   Consiste à trouver un moyen de multiplier des éléments entre eux pour que le "bruit" s'annule.</p>
+<p>Attaques sur les "Branching Programs" : Subfield Attack :
+   Des "combinaisons interdites" permettent de créer des zéros là où il ne devrait pas y en avoir, révélant ainsi la logique interne du circuit.</p>
+<h2 id="jls">JLS</h2>
+<p>Présenté en 2021 par Aayush Jain, Huijia Lin et Amit Sahai. Cet algorithme n'a pas été cassé à ce jours mais reste difficilement utilisable en raison de la taille et du temps de calcul nécessaire.</p>
+<p>Les étapes différent de GGHRSW, notamment car celui-ci n'utilise plus GGH13 :</p>
+<pre><code>1. Le transformer en circuit booléen
+2. Branching program
+3. PRF et FE
+4. Zero test
+</code></pre>
+<h3 id="prf-pseudo-random-function">PRF (Pseudo random function)</h3>
+<p>Il s'agit d'un outil cryptographique qui permet de générer à partir d'une donnée et d'une clé un résultat pseudo aléatoire unique. C'est une sorte de fonction de hashage, mais avec une table unique par clé, si bien que seul celui qui a strictement la clé et la donné peut généré le pseudo aléatoire.</p>
+<pre><code>PRF(clé_secrète, donnée) : pseudo aléatoire
+PRF(&quot;suPersecret&quot;, &quot;hello&quot;) : 48568597578
+</code></pre>
+<p>C'est utilisé pour masquer les valeurs interne du programme à chaque étape intermédiaire du chemin formé par le branching program.</p>
+<h3 id="fe-functional-encryption">FE (Functional Encryption)</h3>
+<p>La fonction FE prend en entrée l'état masqué actuel. Elle retire le masque actuel en calculant localement la bonne valeur du PRF. Puis effectue le calcul de transition pour atteindre l'état suivant. Enfin elle applique le nouveau masque pseudo-aléatoire (généré par le PRF pour l'état suivant).</p>
+<p>Comment FE retire t'il le masque ? Le programme utilise une clé fonctionnelle nommé $sk_f$ (sk petit f). La clé du PRF n'est écrite nulle part en clair. Elle est "diluée" dans les mathématiques de la fonction.</p>
+<p>Enfaite tout se fait dans la foulée, c'est en faisant le calcule que FE "déchiffre" la valeur, mais on ne peut pas juste "déchiffrer", faire le calcule et "rechiffrer". C'est tout ou rien et ce parce que les instructions de déchiffrement et des calculs sont mixés.</p>
+<h3 id="zero-test_1">Zero test</h3>
+<p>Ici le problème vient justement du caractère mixé de la clé. Car si on ne peut pas juste déchiffrer comment récupérer le résultat final ? Au lieu de tester si un résultat vaut zéro, on vérifie si le chemin parcouru dans le Branching Program arrive sur l'état valide ou non.</p>
+<h2 id="experimentations-personnelles">Expérimentations personnelles</h2>
+<p>Ma première réaction quand j'entendis parler de cette problématique, fut de réaliser un stockage des résultats du programme pour chaque entrée possible (par exemple sur 10 caractères ascii).</p>
+<p>Plutôt que d'essayer de camoufler la logique, il faudrait trouver un moyen de calculer, stocker et récupérer les résultats de manière optimisée.</p>
+<p>Bien sur l'explosion combinatoire du nombre de possibilités de solutions possibles à la suite d'un calcul, rend la méthode brutale (stocker pour chaque possibilité impossible). Cependant peut-être peut-on stocker quelque chose entre les résultats et la logique, une sorte d'indermédiaire qui nécessiterait un calcul partiel.</p>
+<h3 id="exemple-avec-des-courbes">Exemple avec des courbes</h3>
+<pre><code class="language-py">def func(a):
+    return a + 5
+
+result = []
+for i in range(1000):
+    result.append(func(i))
+</code></pre>
+<p>Ici dans le cas d'une simple addition on est pas obligé de stocker les 1000 résultats, on peut récupérer le premier et le dernier et ainsi déduire l'ensemble des autres résultats :</p>
+<pre><code class="language-py">def func(first_i, last_i, first_res, last_res, i):
+    courbe = (last_res - first_res) / (last_i - first_i)
+
+    return  courbe * (i - first_i) + first_res
+
+first_i, last_i = 1, 1000
+first_res, last_res = 6, 1005
+
+assert(func(first_i, last_i, first_res, last_res, 500) == 505.0)
+</code></pre>
+<p><img alt="" src="../indistinguishability_obfuscation/courbe_1.png" /></p>
+<p>Cette méthode fonctionne aussi pour les exponentielles, (il faut juste sauvegarder un point en plus) :</p>
+<pre><code class="language-py">def func(a):
+    return 2 * (3 ** a)
+</code></pre>
+<pre><code class="language-py"># Généré par IA
+def func_obf(x1, x2, x3, y1, y2, y3, x):
+    b = (y2 / y1)
+    a = y1 / (b ** x1)
+
+    return a * (b ** x)
+
+x1, x2, x3 = 1, 2, 3
+y1 = 2 * (3 ** 1)
+y2 = 2 * (3 ** 2)
+y3 = 2 * (3 ** 3)
+
+assert(func_obf(x1, x2, x3, y1, y2, y3, 1) == 6.0)
+assert(func_obf(x1, x2, x3, y1, y2, y3, 2) == 18.0)
+assert(func_obf(x1, x2, x3, y1, y2, y3, 5) == 486.0)
+assert(func_obf(x1, x2, x3, y1, y2, y3, 32) == 3706040377703682.0)
+</code></pre>
+<p><img alt="" src="../indistinguishability_obfuscation/courbe_2.png" /></p>
+<p>Le problème c'est qu'on ne va pas faire une courbe pour chaque étape du calcul, ça resterait facile à reverse. Si ont fait une courbe pour tout le programme on va vite être limité étant donné que certain d'entre eux ne sont pas prévisible via des courbes.</p>
+<p>Avec cette méthode on peut surement obfusquer de nombreux programme mais pas des cryptographique, hors c'est quand même un peu ça le sujet. En effet, si on essaie de faire ça avec une fonction de hashage, on voit bien que ça va être compliqué de stocker une représentation graphique plus légère que si on devait stocker tous les résultats. D'autant plus que comme le montre l'échel, aucune corrélation entre le mot et son hash n'existe (c'est le but en même temps) :
+<img alt="" src="../indistinguishability_obfuscation/plan_md5.png" />
+<em>script et graphique généré avec IA</em></p>
+<p>On peut pas stocker plus efficacement SAUF si on accepte une légère (potentiellement énorme enfaite) erreur. Par exemple ici il y a une ligne de vert presque progressive :
+<img alt="" src="../indistinguishability_obfuscation/plan_md5_zoom.png" /></p>
+<pre><code>Je continue mes expérimentations. Je mettrais à jour l'article.
+</code></pre>
+<h4 id="sources">Sources</h4>
+<pre><code>RCA : https://www.101computing.net/binary-additions-using-logic-gates/
+CLA : https://en.wikipedia.org/wiki/Carry-lookahead_adder
+
+GGHRSW : https://eprint.iacr.org/2013/451.pdf
+JLS : https://eprint.iacr.org/2020/1003.pdf
+
+Le tout compilé et expliqué par Chatgpt et Gemini
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
