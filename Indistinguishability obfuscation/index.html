@@ -293,10 +293,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#circuit-booleen" class="md-nav__link">
+  <a href="#1-circuit-booleen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Circuit booléen
+        1. Circuit booléen
       
     </span>
   </a>
@@ -455,51 +455,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#experimentations-personnelles" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expérimentations personnelles
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Expérimentations personnelles">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#exemple-avec-des-courbes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exemple avec des courbes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Exemple avec des courbes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sources
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -555,10 +510,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#circuit-booleen" class="md-nav__link">
+  <a href="#1-circuit-booleen" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Circuit booléen
+        1. Circuit booléen
       
     </span>
   </a>
@@ -717,51 +672,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#experimentations-personnelles" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Expérimentations personnelles
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Expérimentations personnelles">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#exemple-avec-des-courbes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exemple avec des courbes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Exemple avec des courbes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sources" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sources
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -822,7 +732,7 @@ c = a + b
 3. Ajout du bruit grâce à la Randomisation de Kilian
 4. Appliquer GGH13 et déduire le résultat du programme
 </code></pre>
-<h3 id="circuit-booleen">Circuit booléen</h3>
+<h3 id="1-circuit-booleen">1. Circuit booléen</h3>
 <p>La première étape consiste à transformer le programme en circuit booléen.</p>
 <p>Le circuit booléen classique pour une addition est le suivant : Ripple Carry Adder (RCA)</p>
 <p><img alt="" src="../indistinguishability_obfuscation/RCA.png" /></p>
@@ -884,7 +794,7 @@ si b est avant a le résultat du XOR est 1
 </code></pre>
 <p>Le logiciel qui va faire ça s'appelle le "Branching Program" et ces suites de permutation peuvent être representées par des matrices.</p>
 <h3 id="randomisation-de-kilian">Randomisation de Kilian</h3>
-<p>L'objectif de cette méthode va être de rajouter des actions inutiles qui vont créent du bruit et se résoudre au fur et a mesure.</p>
+<p>L'objectif de cette méthode va être de rajouter des actions inutiles qui vont créent du bruit et se résoudre au fur et à mesure.</p>
 <p>Par exemple :</p>
 <pre><code>a XOR b
 0   0   ne rien faire
@@ -1176,11 +1086,11 @@ PRF(&quot;suPersecret&quot;, &quot;hello&quot;) : 48568597578
 <p>Enfaite tout se fait dans la foulée, c'est en faisant le calcule que FE "déchiffre" la valeur, mais on ne peut pas juste "déchiffrer", faire le calcule et "rechiffrer". C'est tout ou rien et ce parce que les instructions de déchiffrement et des calculs sont mixés.</p>
 <h3 id="zero-test_1">Zero test</h3>
 <p>Ici le problème vient justement du caractère mixé de la clé. Car si on ne peut pas juste déchiffrer comment récupérer le résultat final ? Au lieu de tester si un résultat vaut zéro, on vérifie si le chemin parcouru dans le Branching Program arrive sur l'état valide ou non.</p>
-<h2 id="experimentations-personnelles">Expérimentations personnelles</h2>
+<h1 id="experimentations-personnelles">Expérimentations personnelles</h1>
 <p>Ma première réaction quand j'entendis parler de cette problématique, fut de réaliser un stockage des résultats du programme pour chaque entrée possible (par exemple sur 10 caractères ascii).</p>
 <p>Plutôt que d'essayer de camoufler la logique, il faudrait trouver un moyen de calculer, stocker et récupérer les résultats de manière optimisée.</p>
-<p>Bien sur l'explosion combinatoire du nombre de possibilités de solutions possibles à la suite d'un calcul, rend la méthode brutale (stocker pour chaque possibilité impossible). Cependant peut-être peut-on stocker quelque chose entre les résultats et la logique, une sorte d'indermédiaire qui nécessiterait un calcul partiel.</p>
-<h3 id="exemple-avec-des-courbes">Exemple avec des courbes</h3>
+<p>Bien sur l'explosion combinatoire du nombre de possibilités de solutions possibles à la suite d'un calcul, rend la méthode brutale (stocker pour chaque possibilité impossible). Cependant peut-être peut-on stocker quelque chose entre les résultats et la logique, une sorte d'intermédiaire qui nécessiterait un calcul partiel.</p>
+<h2 id="utiliser-des-courbes">Utiliser des courbes</h2>
 <pre><code class="language-py">def func(a):
     return a + 5
 
@@ -1222,21 +1132,109 @@ assert(func_obf(x1, x2, x3, y1, y2, y3, 5) == 486.0)
 assert(func_obf(x1, x2, x3, y1, y2, y3, 32) == 3706040377703682.0)
 </code></pre>
 <p><img alt="" src="../indistinguishability_obfuscation/courbe_2.png" /></p>
-<p>Le problème c'est qu'on ne va pas faire une courbe pour chaque étape du calcul, ça resterait facile à reverse. Si ont fait une courbe pour tout le programme on va vite être limité étant donné que certain d'entre eux ne sont pas prévisible via des courbes.</p>
-<p>Avec cette méthode on peut surement obfusquer de nombreux programme mais pas des cryptographique, hors c'est quand même un peu ça le sujet. En effet, si on essaie de faire ça avec une fonction de hashage, on voit bien que ça va être compliqué de stocker une représentation graphique plus légère que si on devait stocker tous les résultats. D'autant plus que comme le montre l'échel, aucune corrélation entre le mot et son hash n'existe (c'est le but en même temps) :
+<p>Le problème c'est qu'on ne va pas faire une courbe pour chaque étape du calcul, ça resterait facile à reverse. Si on fait une courbe pour tout le programme on va vite être limité étant donné que certain d'entre eux ne sont pas prévisible via des courbes.</p>
+<p>Avec cette méthode on peut surement obfusquer de nombreux programme mais pas des cryptographiques, hors c'est quand même un peu ça le sujet. En effet, si on essaie de faire ça avec une fonction de hashage, on voit bien que ça va être compliqué de stocker une représentation graphique plus légère que si on devait stocker tous les résultats. D'autant plus que comme le montre l'échelle, aucune corrélation n'existe entre le mot et son hash (c'est le but en même temps) :
 <img alt="" src="../indistinguishability_obfuscation/plan_md5.png" />
 <em>script et graphique généré avec IA</em></p>
-<p>On peut pas stocker plus efficacement SAUF si on accepte une légère (potentiellement énorme enfaite) erreur. Par exemple ici il y a une ligne de vert presque progressive :
+<p>On ne peut pas stocker plus efficacement SAUF si on accepte une légère (potentiellement énorme en faite) erreur. Par exemple ici il y a une ligne de vert presque progressive :
 <img alt="" src="../indistinguishability_obfuscation/plan_md5_zoom.png" /></p>
-<pre><code>Je continue mes expérimentations. Je mettrais à jour l'article.
+<h2 id="utiliser-des-chemins">Utiliser des chemins</h2>
+<p>Utiliser une sorte de ligne (1d) ou une réprésentation sur un plan (2d), pour éviter d'avoir à faire le test final, mais récupérer le chemin parcouru à chaque étape du calcul.</p>
+<p>Exemple : </p>
+<pre><code class="language-py">def func(a):
+    c = a ** 6
+    c += a
+    c += 8
+    if c == 740:
+        return True
+    return False
+
+func(3) # True
 </code></pre>
+<p>Plutôt que de faire le test final qui révellerais la valeur attendu (il faudrait juste faire quelque calcule pour la récupérer), on peut faire passer l'entré a par une suite de calcule et vérifier le chemin qu'elle prend sur la ligne.
+Il se trouve que même si on ne divise pas jusqu'a atteindre le nombre exacte (740), le chemin emprunté par la valeur 3 est unique ce qui permet de valider le "mot de passe" sans le test final.</p>
+<pre><code class="language-py">def func(a):
+    # taille de la ligne 0, 1000
+
+    c = a ** 6
+    if c &gt; 500:
+        res_first_circle.append(&quot;&gt;500&quot;)
+    else:
+        res_first_circle.append(&quot;&lt;500&quot;)
+
+    c += a
+    if c &gt; 750:
+        res_second_circle.append(&quot;&gt;750&quot;)
+    else:
+        res_second_circle.append(&quot;&lt;750&quot;)
+    if c &gt; 250:
+        res_second_circle.append(&quot;&gt;250&quot;)
+    else:
+        res_second_circle.append(&quot;&lt;250&quot;)
+
+    # ici pour plus de simplicité on va abandonner les chemins &lt;500
+
+    c += 8
+    if c &gt; 650:
+        res_third_circle.append(&quot;&gt;650&quot;)
+    else:
+        res_third_circle.append(&quot;&lt;650&quot;)
+</code></pre>
+<p>Evidemment on peut toujours faire le chemin inverse si on réalise le test finale ainsi :</p>
+<pre><code class="language-py">if res_first_circle = ['&gt;500']
+    if res_second_circle = ['&lt;750', '&gt;250']
+        if res_third_circle = ['&gt;650']:
+</code></pre>
+<p>On va donc former un hash au fur et a mesure constitué du chemin emprunté :</p>
+<pre><code class="language-py">def func(a):
+    chemin = &quot;&quot;
+    # taille de la ligne 0, 1000
+
+    c = a ** 6
+    if c &gt; 500:
+        chemin = chemin + md5(&quot;&gt;500&quot;)
+    else:
+        chemin = chemin + md5(&quot;&lt;500&quot;)
+
+    c += a
+    if c &gt; 750:
+        chemin = chemin + md5(&quot;&gt;750&quot;)
+    else:
+        chemin = chemin + md5(&quot;&lt;750&quot;)
+    if c &gt; 250:
+        chemin = chemin + md5(&quot;&gt;250&quot;)
+    else:
+        chemin = chemin + md5(&quot;&lt;250&quot;)
+
+    # ici pour plus de simplicité on va abandonner les chemin &lt;500
+
+    c += 8
+    if c &gt; 650:
+        chemin = chemin + md5(&quot;&gt;650&quot;)
+    else:
+        chemin = chemin + md5(&quot;&lt;650&quot;)
+
+    res = md5(chemin)
+
+    if res == &quot;0c51d844c0193119a5b59f3d773da610&quot;:
+        return True
+    return False
+
+func(2) # True
+func(3) # True
+func(4) # True
+</code></pre>
+<p>Cette exemple reste minimaliste il faudrait trouver un moyen de généraliser ce découpage de la ligne de façon automatique et plus précise. Un modèle en deux dimension découpé à chaque passage en quart serait également peut-être plus efficace.</p>
+<p>Si au lieu d'avoir une ligne de taille 1000 on met une ligne de taille 1 millions le nombre de hash à calculer pour déduire la clé serait trop longue.</p>
+<p>En l'état actuelle ça n'apporte rien par rapport à comparer un mdp avec son hash, l'objectif principal de l'iO reste de cacher la valeur des calculs. Mais l'interet des chemins c'est qu'on a pas besoin d'avoir exactement le bon résultat. En effet 3.1 et 2.9 renvoient également True si on les passe dans le programme actuel. C'est peut-être un avantage.</p>
+<h2 id="tentative-numero-3">Tentative numéro 3</h2>
+<p>En cours...</p>
 <h4 id="sources">Sources</h4>
 <pre><code>RCA : https://www.101computing.net/binary-additions-using-logic-gates/
 CLA : https://en.wikipedia.org/wiki/Carry-lookahead_adder
 
 GGHRSW : https://eprint.iacr.org/2013/451.pdf
 JLS : https://eprint.iacr.org/2020/1003.pdf
-
 </code></pre>
 
 
