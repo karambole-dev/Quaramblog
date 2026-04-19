@@ -1,0 +1,808 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Indistinguishability%20obfuscation/">
+      
+      
+        <link rel="next" href="../What%20is%20eBPF/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/yotsuba.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Labs : OpenSearch + Arkime + OpenSearch Dashboards - Quaramblog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#labs-opensearch-arkime-opensearch-dashboards" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Quaramblog" class="md-header__button md-logo" aria-label="Quaramblog" data-md-component="logo">
+      
+  <img src="../assets/yotsuba.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quaramblog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Labs : OpenSearch + Arkime + OpenSearch Dashboards
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Quaramblog" class="md-nav__button md-logo" aria-label="Quaramblog" data-md-component="logo">
+      
+  <img src="../assets/yotsuba.png" alt="logo">
+
+    </a>
+    Quaramblog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome to the Quaramblog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Indistinguishability%20obfuscation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indistinguishability obfuscation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs : OpenSearch + Arkime + OpenSearch Dashboards
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs : OpenSearch + Arkime + OpenSearch Dashboards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#opensearch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenSearch
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arkime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arkime
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opensearch-dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenSearch Dashboards
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#our-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Our lab :
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Our lab :">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-opensearch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install opensearch :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-arkime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Arkime
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install Arkime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nmap-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nmap test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuzzing-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuzzing test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-cont3xt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Cont3xt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-kibana-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create Kibana dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../What%20is%20eBPF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is eBPF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#opensearch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenSearch
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arkime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Arkime
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#opensearch-dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenSearch Dashboards
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#our-lab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Our lab :
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Our lab :">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-opensearch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install opensearch :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-arkime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Arkime
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install Arkime">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nmap-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nmap test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fuzzing-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fuzzing test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup-cont3xt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup Cont3xt
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-kibana-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create Kibana dashboard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="labs-opensearch-arkime-opensearch-dashboards">Labs : OpenSearch + Arkime + OpenSearch Dashboards</h1>
+<p>This article is not really a course or a tutorial but the walkthrough of setting up a lab which allowed experimentation with the previously mentioned technology.</p>
+<p><em>In 2021, the company Elastic (which owns Kibana and Elasticsearch) stopped publishing these softwares under an Open Source and free license. The community then took the last truly "free" version and decided to continue developing it independently. Elasticsearch became OpenSearch. Kibana became OpenSearch Dashboards.</em></p>
+<h2 id="opensearch">OpenSearch</h2>
+<p>OpenSearch is a protocol allowing indexing and searching in a large amount of data.</p>
+<h2 id="arkime">Arkime</h2>
+<p>Composed of 3 modules:</p>
+<ul>
+<li>capture : sniff the packets</li>
+<li>viewer : web ui for viewing packages</li>
+<li>cont3xt : allows packet enrichment with a system for ingesting APIs (for correlation and analysis)</li>
+</ul>
+<p>Arkime stores this data in Opensearch.</p>
+<h2 id="opensearch-dashboards">OpenSearch Dashboards</h2>
+<p>Used to create dashboards and visualize data.</p>
+<h2 id="our-lab">Our lab :</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>arkimecapture + arkimecont3xt &lt;----&gt; OpenSearch &lt;----&gt; OpenSearch DashBoards
+</code></pre></div>
+<h4 id="install-opensearch">Install opensearch :</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo apt update
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo apt install -y wget curl
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>sudo wget https://artifacts.opensearch.org/releases/bundle/opensearch/2.13.0/opensearch-2.13.0-linux-x64.deb
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>sudo OPENSEARCH_INITIAL_ADMIN_PASSWORD=&quot;DaPazzwordtochange&quot; \
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>apt install -y ./opensearch-2.13.0-linux-x64.deb
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>sudo systemctl daemon-reload # not specified in the documentation, but it doesn&#39;t work otherwise
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>sudo systemctl enable opensearch.service
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>sudo systemctl start opensearch.service
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>curl -k --user &quot;admin:$OPENSEARCH_INITIAL_ADMIN_PASSWORD&quot; https://localhost:9200/_cat/health
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>should return : 1681901234 12:33:54 opensearch-cluster green 1 1 0 0 0 0 0 0 - 100.0%
+</code></pre></div>
+<h3 id="install-arkime">Install Arkime</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>wget https://github.com/arkime/arkime/releases/download/v6.1.1/arkime_6.1.1-1.ubuntu2404_amd64.deb
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>sudo apt install ./arkime_6.1.1-1.ubuntu2404_amd64.deb
+</code></pre></div>
+<p>Init opensearch for Arkime :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>/opt/arkime/db/db.pl --esuser admin https://localhost:9200 init --ism
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>/opt/arkime/db/db.pl --esuser admin https://localhost:9200 ism 1d 30d
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>1d : One index (data grouping) is created per day
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>30d : Data is save for 30 days
+</code></pre></div></p>
+<p>Configuration script :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>/opt/arkime/bin/Configure
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>-&gt; specifying the opensearch address (localhost), and the password
+</code></pre></div></p>
+<p>Create a user :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>/opt/arkime/bin/arkime_add_user.sh admin &quot;Admin User&quot; changeme --admin
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>systemctl enable --now arkimecapture
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>systemctl enable --now arkimeviewer
+</code></pre></div>
+<h4 id="troubleshooting">Troubleshooting</h4>
+<p>In this configuration the arkimecapture service was not working. So I launched it manually to see the error and it was the absence of the oui.txt file (allowing MACs to be linked to the machine manufacturer).
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo /opt/arkime/bin/capture -c /opt/arkime/etc/config.ini
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>FATAL CONFIG ERROR - Couldn&#39;t stat oui file &#39;/opt/arkime/etc/oui.txt&#39; with error &#39;No such file or directory&#39; - FIX by running /opt/arkime/bin/arkime_update_geo.sh OR updating the ouiFile setting
+</code></pre></div></p>
+<p>So I corrected the problem by running the Geo and OUI file update script:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>sudo /opt/arkime/bin/arkime_update_geo.sh
+</code></pre></div></p>
+<p>Once connected to the console we change the admin password.</p>
+<h4 id="nmap-test">Nmap test</h4>
+<p><img alt="" src="../labs_arkime/arkime_nmap.png" /></p>
+<h4 id="fuzzing-test">Fuzzing test</h4>
+<p><img alt="" src="../labs_arkime/arkime_fuzzing.png" /></p>
+<h3 id="setup-cont3xt">Setup Cont3xt</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>sudo /opt/arkime/bin/Configure --cont3xt
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>systemctl enable --now arkimecont3xt
+</code></pre></div>
+<p>A new interface is available on port 3218. Now we will configure the abuseIPDB API key to demonstrate how it works.</p>
+<p>After creating an account on AbuseIPDB, Settings &gt; AbuseIPDB &gt; key.</p>
+<p><img alt="" src="../labs_arkime/arkime_apikey.png" /></p>
+<p>Once this is done, if we are looking for information on an IP (for example the C2 used by the rat that infected Axios 142[.]11[.]206[.]73), we can easily merge information from AbuseIPDB but also from other providers once configured:</p>
+<p><img alt="" src="../labs_arkime/arkime_iplookup.png" /></p>
+<h3 id="create-kibana-dashboard">Create Kibana dashboard</h3>
+<p>I had no more space on my vm. So I launch opensearchDashboard on my host machine:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">5601</span>:5601<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;OPENSEARCH_HOSTS=[&quot;https://192.168.1.12:9200&quot;]&#39;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;OPENSEARCH_USERNAME=admin&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;OPENSEARCH_PASSWORD=DaPazzwordtochange&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;SERVER_HOST=0.0.0.0&quot;</span><span class="w"> </span>opensearchproject/opensearch-dashboards:latest
+</code></pre></div>
+<p>The problem is that currently opensearch only listens locally so I had to add these lines in the opensearch configuration:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sudo nano /etc/opensearch/opensearch.yml
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a># allow connections from other machines than localhost
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>network.host: 0.0.0.0
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a># force single node mode
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>discovery.type: single-node
+</code></pre></div></p>
+<p>To check that our data is accessible, in the discover on selection menu this data source:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>arkime_sessions3-*
+</code></pre></div>
+(To see all the data sources go to Index Management)</p>
+<p><img alt="" src="../labs_arkime/opensearch_query.png" /></p>
+<p>We can then create our dashboard (difficult to explain how in an article because it is mainly point and click, the best is to watch a visual tutorial):</p>
+<p><img alt="" src="../labs_arkime/opensearch_dashboard.png" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
