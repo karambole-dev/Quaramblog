@@ -221,6 +221,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../Creation%20and%20analysis%20of%20a%20keylogger%20developed%20in%20x86%20assembly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creation and analysis of a keylogger developed in x86 assembly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../Indistinguishability%20obfuscation/" class="md-nav__link">
         
   
@@ -445,6 +472,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#xdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XDP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="XDP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xdp-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XDP Fallback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xdp-natif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XDP natif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xdp-offload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XDP offload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -587,6 +664,56 @@
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XDP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="XDP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xdp-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XDP Fallback
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xdp-natif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XDP natif
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xdp-offload" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XDP offload
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1030,6 +1157,41 @@
 <a id="__codelineno-28-46" name="__codelineno-28-46" href="#__codelineno-28-46"></a>    <span class="c1"># ask the kernel if their is a new event (if so it will call the callback function)</span>
 <a id="__codelineno-28-47" name="__codelineno-28-47" href="#__codelineno-28-47"></a>    <span class="n">b</span><span class="o">.</span><span class="n">ring_buffer_poll</span><span class="p">()</span>
 </code></pre></div>
+<h2 id="xdp">XDP</h2>
+<p>XDP (Express data path) is a specific network hook where you can attach a eBPF program. It allow to send/intercep and allow or not the trams.</p>
+<p>All of this allow big optimisation will bypassing the kernel overhead of the linux network stack (interrupt handling, protocol parsing, memory allocation).</p>
+<h3 id="xdp-fallback">XDP Fallback</h3>
+<p>Runs in the kernel, but after the classic network stack, useful for testing or monitoring (but not for filtering packets as they enter the system since that it is at the end of the process).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">bcc</span><span class="w"> </span><span class="kn">import</span> <span class="n">BPF</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="n">program</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="s2">#include &lt;uapi/linux/bpf.h&gt;</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="s2">int xdp_prog(struct xdp_md *ctx) {</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="s2">    bpf_trace_printk(&quot;New trame retreive in XDP</span><span class="se">\\</span><span class="s2">n&quot;);</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="s2">    return XDP_PASS;</span>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="s2">}</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a><span class="s2">&quot;&quot;&quot;</span>
+<a id="__codelineno-29-12" name="__codelineno-29-12" href="#__codelineno-29-12"></a>
+<a id="__codelineno-29-13" name="__codelineno-29-13" href="#__codelineno-29-13"></a><span class="n">b</span> <span class="o">=</span> <span class="n">BPF</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">program</span><span class="p">)</span>
+<a id="__codelineno-29-14" name="__codelineno-29-14" href="#__codelineno-29-14"></a><span class="n">fn</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">load_func</span><span class="p">(</span><span class="s2">&quot;xdp_prog&quot;</span><span class="p">,</span> <span class="n">BPF</span><span class="o">.</span><span class="n">XDP</span><span class="p">)</span>
+<a id="__codelineno-29-15" name="__codelineno-29-15" href="#__codelineno-29-15"></a><span class="n">b</span><span class="o">.</span><span class="n">attach_xdp</span><span class="p">(</span><span class="s2">&quot;wlp4s0&quot;</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="n">BPF</span><span class="o">.</span><span class="n">XDP_FLAGS_SKB_MODE</span><span class="p">)</span>
+<a id="__codelineno-29-16" name="__codelineno-29-16" href="#__codelineno-29-16"></a>
+<a id="__codelineno-29-17" name="__codelineno-29-17" href="#__codelineno-29-17"></a><span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-29-18" name="__codelineno-29-18" href="#__codelineno-29-18"></a>    <span class="n">b</span><span class="o">.</span><span class="n">trace_print</span><span class="p">()</span>
+<a id="__codelineno-29-19" name="__codelineno-29-19" href="#__codelineno-29-19"></a><span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+<a id="__codelineno-29-20" name="__codelineno-29-20" href="#__codelineno-29-20"></a>    <span class="n">b</span><span class="o">.</span><span class="n">remove_xdp</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">BPF</span><span class="o">.</span><span class="n">XDP_FLAGS_SKB_MODE</span><span class="p">)</span>
+<a id="__codelineno-29-21" name="__codelineno-29-21" href="#__codelineno-29-21"></a>    <span class="n">exit</span><span class="p">()</span>
+</code></pre></div>
+<p>XDP_FLAGS_SKB_MODE = mode fallback</p>
+<h3 id="xdp-natif">XDP natif</h3>
+<p>The eBPF program runs in the network card driver before the packet enters the Linux network stack.</p>
+<p>To switch to native mode, you must use the mode: XDP_FLAGS_DRV_MODE</p>
+<p>It really depends on the network cards that need to be compatible.</p>
+<h3 id="xdp-offload">XDP offload</h3>
+<p>The program is loaded and runs directly on the network card. This guarantees maximum performance, but not all network cards support it. It is very useful for precisely managing large volumes of data (datacenters, telecom) and ensuring early filtering.</p>
+<p>Most NIC are not compatible; it's mainly in cases of very advanced infrastructure (datacenters).</p>
 
 
 
