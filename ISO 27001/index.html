@@ -1,0 +1,1091 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Creation%20and%20analysis%20of%20a%20keylogger%20developed%20in%20x86%20assembly/">
+      
+      
+        <link rel="next" href="../Indistinguishability%20obfuscation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/yotsuba.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>ISO 27001 - Quaramblog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#iso-c-rigolo" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Quaramblog" class="md-header__button md-logo" aria-label="Quaramblog" data-md-component="logo">
+      
+  <img src="../assets/yotsuba.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quaramblog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ISO 27001
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Quaramblog" class="md-nav__button md-logo" aria-label="Quaramblog" data-md-component="logo">
+      
+  <img src="../assets/yotsuba.png" alt="logo">
+
+    </a>
+    Quaramblog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome to the Quaramblog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Creation%20and%20analysis%20of%20a%20keylogger%20developed%20in%20x86%20assembly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creation and analysis of a keylogger developed in x86 assembly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO 27001
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO 27001
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#iso-c-rigolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISO C RIGOLO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-iso-27000" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Les ISO 27000
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les ISO 27000">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#famille-de-normes-iso-27000-tableau-recapitulatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Famille de normes ISO 27000 — Tableau récapitulatif
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vocabulaire" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vocabulaire
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-savoir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A savoir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iso-a-connaitre" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISO à connaitre
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ISO à connaitre">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#27017" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27017 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27018" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27018 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27001" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27001 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27701" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27701 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22301" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        22301 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27032" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27032 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27103 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concretement-comment-etre-certifie-iso-27001" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concrètement comment être certifié ISO 27001 ?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Indistinguishability%20obfuscation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indistinguishability obfuscation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labs%20%3A%20OpenSearch%20%2B%20Arkime%20%2B%20OpenSearch%20Dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs : OpenSearch + Arkime + OpenSearch Dashboards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Understand%20RSA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Understand RSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Videos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Videos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../What%20is%20eBPF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is eBPF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#iso-c-rigolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISO C RIGOLO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-iso-27000" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Les ISO 27000
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Les ISO 27000">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#famille-de-normes-iso-27000-tableau-recapitulatif" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Famille de normes ISO 27000 — Tableau récapitulatif
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vocabulaire" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vocabulaire
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-savoir" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A savoir
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iso-a-connaitre" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISO à connaitre
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ISO à connaitre">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#27017" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27017 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27018" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27018 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27001" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27001 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27701" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27701 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22301" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        22301 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27032" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27032 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27103" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        27103 :
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#concretement-comment-etre-certifie-iso-27001" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concrètement comment être certifié ISO 27001 ?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>ISO 27001</h1>
+
+<h2 id="iso-c-rigolo">ISO C RIGOLO</h2>
+<p><em>ISO = tiré du grec isos, « égal »</em>, traduit la volonté d'homogénéisation de ces normes.</p>
+<p>Une norme est un document établi par un organisme reconnu. Pour être conforme à une norme il faut respecter des caractéristiques.</p>
+<p>Elle est conçue pour être reconnue et appliqué. Et peut-être rendu obligatoire par une réglementations.</p>
+<p>Par exemple une petite entreprise n'est pas obligé d'appliquer l'iso 27001 mais un prestataire de service sensible (OVH par exemple) peu y être obligé par la loi.</p>
+<h2 id="les-iso-27000">Les ISO 27000</h2>
+<h3 id="famille-de-normes-iso-27000-tableau-recapitulatif">Famille de normes ISO 27000 — Tableau récapitulatif</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Catégorie</strong></th>
+<th><strong>Norme</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vocabulaire</strong></td>
+<td>ISO/IEC 27000</td>
+<td>Vue d’ensemble et vocabulaire</td>
+</tr>
+<tr>
+<td><strong>Exigences</strong></td>
+<td>ISO/IEC 27006</td>
+<td>Organismes fournissant l’audit et la certification de SMSI</td>
+</tr>
+<tr>
+<td></td>
+<td>ISO/IEC 27001</td>
+<td>Systèmes de management de la sécurité de l’information</td>
+</tr>
+<tr>
+<td></td>
+<td>ISO/IEC 27701</td>
+<td>Systèmes de management de la protection de la vie privée</td>
+</tr>
+<tr>
+<td><strong>Lignes directrices</strong></td>
+<td>ISO/IEC 27002</td>
+<td>Mesures de sécurité de l’information</td>
+</tr>
+<tr>
+<td></td>
+<td>ISO/IEC 27003</td>
+<td>Mise en œuvre du SMSI</td>
+</tr>
+<tr>
+<td></td>
+<td>ISO/IEC 27004</td>
+<td>Surveillance, mesure, analyse et évaluation</td>
+</tr>
+<tr>
+<td></td>
+<td>ISO/IEC 27005</td>
+<td>Gestion des risques liés à la sécurité de l’information</td>
+</tr>
+<tr>
+<td></td>
+<td>ISO/IEC 27007 &amp; ISO/IEC TS 27008</td>
+<td>Audit du SMSI</td>
+</tr>
+<tr>
+<td><strong>Lignes directrices propres à un secteur</strong></td>
+<td>ISO/IEC 27011</td>
+<td>Organismes de télécommunications</td>
+</tr>
+<tr>
+<td></td>
+<td>ISO 27799</td>
+<td>Informatique de santé</td>
+</tr>
+<tr>
+<td></td>
+<td>Autres normes de la famille ISO/IEC 27000</td>
+<td>Diverses normes sectorielles</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vocabulaire">Vocabulaire</h2>
+<p>SMSI : <em>Système de Management de la Sécurité de l'Information</em></p>
+<h2 id="a-savoir">A savoir</h2>
+<blockquote>
+<p>Les exigences sont formulées avec le verbe impératif "doit"</p>
+<p>Les lignes directrices donne des méthodes permettant de respecter les exigences</p>
+<p>Pour respecter les exigences de la normes ISO 27001 ont est pas obligé de respecter les recommandations des ISO de lignes directrices, mais ça peut aider</p>
+<p>Ce qui compte, c’est que l’organisation atteigne l’objectif de l’exigence, pas qu’elle suive une méthode particulière.</p>
+</blockquote>
+<h2 id="iso-a-connaitre">ISO à connaitre</h2>
+<h4 id="27017">27017 :</h4>
+<ul>
+<li>fournit des lignes directrices pour la sécurité de l'information dans les services cloud</li>
+<li>peut être utilisée à la fois par les fournisseurs et les clients de services cloud</li>
+</ul>
+<h4 id="27018">27018 :</h4>
+<ul>
+<li>permet la protection des données à caractère personnel dans le cloud</li>
+</ul>
+<h4 id="27001">27001 :</h4>
+<ul>
+<li>contient 93 mesures de sécurité de l'information dans son Annexe A</li>
+<li>utilisée pour certifier un système de management de la sécurité de l'information (SMSI)</li>
+</ul>
+<h4 id="27701">27701 :</h4>
+<ul>
+<li>extension de l'ISO/IEC 27002 pour la gestion de la protection de la vie privée</li>
+<li>utilisée pour certifier un système de management de la protection de la vie privée (PIMS)</li>
+</ul>
+<h4 id="22301">22301 :</h4>
+<ul>
+<li>management de la continuité d'activité et la gestion des crises</li>
+</ul>
+<h4 id="27032">27032 :</h4>
+<ul>
+<li>traite de la relation entre la sécurité de l'internet, la sécurité du web et la cybersécurité</li>
+</ul>
+<h4 id="27103">27103 :</h4>
+<ul>
+<li>intégration des normes existantes dans un cadre de cybersécurité</li>
+<li>guide les organismes sur l'intégration des normes existantes dans un cadre de cybersécurité</li>
+</ul>
+<p><strong>Toute normes qui termine pas un 1 se prête à des fins de certification</strong></p>
+<p><strong>Tout ces normes sont applicable à tous les organismes, quelle que soit leur taille ou leur secteur d'activité</strong></p>
+<h2 id="concretement-comment-etre-certifie-iso-27001">Concrètement comment être certifié ISO 27001 ?</h2>
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Doit contenir</th>
+<th>Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISMS Scope Statement</td>
+<td>- Périmètre (sites, équipes, processus) <br> - Périmètre exclu</td>
+<td>Carte du SI</td>
+</tr>
+<tr>
+<td>Asset Register (Inventaire)</td>
+<td>- Liste des actifs <br> - Propriétaires d’actifs <br> - Criticité <br> - Localisation / dépendances</td>
+<td>Ce qui doit être protégé dans cette carte (appelé assets)</td>
+</tr>
+<tr>
+<td>Risk Assessment Methodology</td>
+<td>- Méthode d’évaluation impact/probabilité <br> - Calcul du risque résiduel <br> - Critères d’acceptation des risques <br> - Méthode de traitement</td>
+<td>Expliquez votre méthodologie d'évaluation des risques lié à ces assets (sert juste à préparer l'assessment report)</td>
+</tr>
+<tr>
+<td>Risk Assessment Report</td>
+<td>- Liste des risques <br> - Menaces + vulnérabilités <br> - Impact / probabilité <br> - Niveau de risque initial</td>
+<td>Présente les risques possibles pour ces assets</td>
+</tr>
+<tr>
+<td>Risk Register</td>
+<td>- Tableau récapitulatif des risques <br> - Mesures existantes <br> - Risque résiduel <br> - Statut</td>
+<td>Registre centralisé de tous les risques et actions mises en place</td>
+</tr>
+<tr>
+<td>Risk Treatment Plan (RTP)</td>
+<td>- Actions prévues par risque <br> - Responsable <br> - Échéances <br> - Résultat attendu / preuves</td>
+<td>Planifie comment réduire ou traiter chaque risque</td>
+</tr>
+<tr>
+<td>Statement of Applicability (SoA)</td>
+<td>- Liste Annexe A* <br> - Applicable ou non <br> - Justification <br> - Mise en œuvre <br> - Référence vers procédure</td>
+<td>Liste Annexe A* : 114 contrôles de sécurité que l’organisation peut choisir d’implémenter pour gérer les risques liés à la sécurité de l’information. Ces contrôles couvrent des aspects comme la gestion des accès, la sécurité physique, la sécurité des opérations, la cryptographie etc..</td>
+</tr>
+<tr>
+<td>Information Security Policy</td>
+<td>- Objectifs sécurité (CIA) <br> - Engagement direction <br> - Responsabilités <br> - Règles générales</td>
+<td>Politique de sécurité du SI (PSSI)</td>
+</tr>
+<tr>
+<td>Access Control Policy</td>
+<td>- Création/modification/suppression des accès <br> - Gestion comptes privilégiés <br> - Exigences MFA / mots de passe</td>
+<td>Définit comment les accès aux systèmes sont contrôlés et sécurisés</td>
+</tr>
+<tr>
+<td>Incident Management Procedure</td>
+<td>- Classification incidents <br> - Procedures de reprise</td>
+<td>Décrit la façon de gérer et documenter les incidents de sécurité</td>
+</tr>
+<tr>
+<td>Backup Policy</td>
+<td>- Fréquence sauvegardes <br> - Stockage + chiffrement <br> - Tests de restauration</td>
+<td>Définit la politique de sauvegarde et de restauration des données</td>
+</tr>
+<tr>
+<td>Change Management Procedure</td>
+<td>- Types de changements <br> - Validation <br> - Journalisation / revue post-déploiement</td>
+<td>Explique comment les changements sont planifiés, validés et suivis.</td>
+</tr>
+<tr>
+<td>Supplier Management Procedure</td>
+<td>- Critères de sélection fournisseurs <br> - Évaluation risques fournisseurs <br> - Suivi performance / sécurité</td>
+<td>Décrit la gestion et le contrôle des risques liés aux fournisseurs</td>
+</tr>
+<tr>
+<td>Internal Audit Report</td>
+<td>- Résultats audit <br> - Non-conformités <br> - Preuves <br> - Actions recommandées</td>
+<td>Présente les résultats des audits et les actions correctives</td>
+</tr>
+<tr>
+<td>Management Review Minutes</td>
+<td>- Analyse résultats ISMS <br> - Incidents majeurs <br> - État des risques <br> - Décisions / actions de direction</td>
+<td>Documente les décisions de la direction concernant le système de sécurité</td>
+</tr>
+<tr>
+<td>Training &amp; Awareness Records</td>
+<td>- Sessions réalisées <br> - Participants <br> - Supports utilisés <br> - Évaluations</td>
+<td>Comment les employées sont sensibilisés</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

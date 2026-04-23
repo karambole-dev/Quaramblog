@@ -1,0 +1,1452 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../ISO%2027001/">
+      
+      
+        <link rel="next" href="../Labs%20%3A%20OpenSearch%20%2B%20Arkime%20%2B%20OpenSearch%20Dashboards/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/yotsuba.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Indistinguishability obfuscation - Quaramblog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lobfuscation-indistinguable-io" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Quaramblog" class="md-header__button md-logo" aria-label="Quaramblog" data-md-component="logo">
+      
+  <img src="../assets/yotsuba.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Quaramblog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Indistinguishability obfuscation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Quaramblog" class="md-nav__button md-logo" aria-label="Quaramblog" data-md-component="logo">
+      
+  <img src="../assets/yotsuba.png" alt="logo">
+
+    </a>
+    Quaramblog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome to the Quaramblog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Creation%20and%20analysis%20of%20a%20keylogger%20developed%20in%20x86%20assembly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creation and analysis of a keylogger developed in x86 assembly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ISO%2027001/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISO 27001
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indistinguishability obfuscation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Indistinguishability obfuscation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gghrsw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GGHRSW
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GGHRSW">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-circuit-booleen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Circuit booléen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transformer-le-circuit-en-matrice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transformer le circuit en matrice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomisation-de-kilian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Randomisation de Kilian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ggh13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GGH13
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GGH13">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ajouter-du-bruit-et-pouvoir-le-retirer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ajouter du bruit et pouvoir le retirer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diviser-par-un-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diviser par un secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero-test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prf-pseudo-random-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRF (Pseudo random function)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fe-functional-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FE (Functional Encryption)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-test_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Labs%20%3A%20OpenSearch%20%2B%20Arkime%20%2B%20OpenSearch%20Dashboards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs : OpenSearch + Arkime + OpenSearch Dashboards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Understand%20RSA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Understand RSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Videos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Videos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../What%20is%20eBPF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is eBPF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gghrsw" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GGHRSW
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GGHRSW">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-circuit-booleen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Circuit booléen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transformer-le-circuit-en-matrice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transformer le circuit en matrice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomisation-de-kilian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Randomisation de Kilian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ggh13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GGH13
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GGH13">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ajouter-du-bruit-et-pouvoir-le-retirer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ajouter du bruit et pouvoir le retirer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diviser-par-un-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diviser par un secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Additions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multiplication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero-test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prf-pseudo-random-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PRF (Pseudo random function)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fe-functional-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FE (Functional Encryption)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#zero-test_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zero test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>🤖 L&#39;IA a été utilisée pour faciliter la collecte d&#39;informations et expliquer 
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>des concepts mathématiques présentés de manière très abrupte dans les articles
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>de recherche sur le sujet. Cependant, l&#39;ensemble du contenu et des calculs ont 
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>été rédigés par un humain (sauf mention contraire).
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Cet article a pour but de présenter et d&#39;expliquer de façon accessible un sujet 
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>aussi complexe que l&#39;iO sans pour autant faire de concessions avec la réalité du sujet. 
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Si une erreur est présente dans cette papier merci de m&#39;en faire part.
+</code></pre></div>
+<h1 id="lobfuscation-indistinguable-io">L'obfuscation indistinguable (iO)</h1>
+<p>L'objectif est de pouvoir rendre le code publique mais mathématiquement impossible à reverse. Ce type de méthode pourrait permettre, entre autre, de rendre tous les logiciels propriétaires et close source on-premise, de faire des calculs sur des block chains décentralisées publiques sans que les données le soit ; mais surtout pourrait rendre possible la cryptographie en boite blanche. </p>
+<p>La cryptographie en boite blanche est le dernier maillon de la cybersécurité en profondeur, puisqu'elle étudie un moyen de faire en sorte que même si un attaquant avait accès au code source il ne pourrait récupérer le secret dans le logiciel de chiffrement ; ce qui permettrait une continuité de la confidentialité des données malgré la compromission totale du système. Pour un attaquant il est <em>impossible d'extraire une information plus utile que s'il avait simplement utilisé le programme comme une "boite noire".</em></p>
+<p>Il existe plusieurs schéma (algo) d'iO mais à ce jour aucune méthode parfaite n'a été trouvé ou implémentée dans une solution utilisable.</p>
+<p>Là où l'obfuscation classique consiste en une sorte de "bricolage" qui a pour but de ralentir les attaquants :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world !&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">Hello</span> <span class="n">world</span> <span class="err">!</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">exec</span><span class="p">(</span><span class="nb">bytes</span><span class="p">([</span><span class="mi">112</span><span class="p">,</span><span class="mi">114</span><span class="p">,</span><span class="mi">105</span><span class="p">,</span><span class="mi">110</span><span class="p">,</span><span class="mi">116</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">72</span><span class="p">,</span><span class="mi">101</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">119</span><span class="p">,</span><span class="mi">111</span><span class="p">,</span><span class="mi">114</span><span class="p">,</span><span class="mi">108</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span><span class="mi">33</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">41</span><span class="p">])</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">Hello</span> <span class="n">world</span> <span class="err">!</span>
+</code></pre></div>
+les schémas d'obfuscation indistinguable souhaitent transformer le programme en une immense équation mathématique chiffrée, si bien qu'il faudrait des années pour en extraire la logique réelle.</p>
+<p>L'un des tout premiers schéma candidat est GGHRSW du nom de ces créateurs : Sanjam Garg, Craig Gentry, Shai Halevi, Mariana Raykova, Amit Sahai, and Brent Waters</p>
+<h2 id="gghrsw">GGHRSW</h2>
+<p>Pour un algorithme donné :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>a = 5
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>b = 7
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>c = a + b
+</code></pre></div></p>
+<p>Le GGHRSW va appliquer plusieurs étapes :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>1. Le transformer en circuit booléen
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>2. Transformer le circuit booléen en &quot;matrices&quot; grâce au théorème de Barrington
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>3. Ajout du bruit grâce à la Randomisation de Kilian
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>4. Appliquer GGH13 et déduire le résultat du programme
+</code></pre></div></p>
+<h3 id="1-circuit-booleen">1. Circuit booléen</h3>
+<p>La première étape consiste à transformer le programme en circuit booléen.</p>
+<p>Le circuit booléen classique pour une addition est le suivant : Ripple Carry Adder (RCA)</p>
+<p><img alt="" src="../indistinguishability_obfuscation/RCA.png" /></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># 5</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># 7</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">sum_res</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">Cin</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">sum_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">Cin</span><span class="p">)</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">Cin</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">|</span> <span class="p">(</span><span class="n">Cin</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">sum_res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Cin</span><span class="p">)</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">assert</span> <span class="n">sum_res</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="c1"># 1100 = 12</span>
+</code></pre></div>
+<p>Cependant le théorème de Barrington (dont on va avoir besoin pour transformer notre circuit booléen en matrices) ne fonctionne efficacement que pour les circuits "appartenant à la classe de complexité NC1", c'est à dire des circuits de profondeur logarithmique dans lesquels même si la taille du problème devient gigantesque, le nombre d'étapes pour le résoudre augmente très lentement.</p>
+<p>Par exemple pour les tournoi sportif on ne fait pas s'affronter chaque équipe les une avec les autres "en série". On organise des 1/8, puis des 1/4 jusqu'a la finale.</p>
+<p>Le problème avec la première version de notre additioneur booléen c'est qu'on doit attendre la retenu "Cout" du second half-adder pour après envoyer les deux retenu dans un OR. Si on essaye d'obfusquer un circuit de profondeur linéaire (la profondeur de RCA dépend de la taille des éléments à additioner), la taille du programme obfusqué est exponentielle.</p>
+<p>On doit donc utiliser un autre algorithme pour l'addition de profondeur logarithmique : Carry-Lookahead Adder, qui lui fonctionne à la manière d'un tournoi et parrallélise le calcul : https://en.wikipedia.org/wiki/Carry-lookahead_adder</p>
+<h3 id="transformer-le-circuit-en-matrice">Transformer le circuit en matrice</h3>
+<p>Théorème de Barrington : "Tout ce qui peut être calculé par un circuit de profondeur logarithmique NC1, peut être transformé en une suite de permutations dans un groupe fini (le groupe symétrique S5)."</p>
+<ul>
+<li>
+<p>permutations : façon de ranger les éléments, par exemple les permutations de [1, 2, 3] sont [3, 2, 1] [1, 3, 2] [2, 3, 1] etc..</p>
+</li>
+<li>
+<p>suite de permutations : appliquer plusieurs permutations les unes après les autres</p>
+</li>
+<li>
+<p>le groupe symétrique S5 : toutes les fonctions de permutations possibles sur 5 éléments</p>
+</li>
+</ul>
+<p><em>Tout programme NC1 peut être simulé avec des permutations de tableau de taille 5.</em></p>
+<p>Concretement le circuit booléen de l'addition utilise la porte logique XOR (ou exclusif). Il se trouve que le XOR consiste juste à faire pour a XOR b :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>if (a == 1): swap
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>if (b == 1): swap
+</code></pre></div></p>
+<p>Ainsi :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>a XOR b
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>1   0   swap
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>0   1   swap
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>0   0   ne rien faire
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>1   1   swap + swap (les deux if sont valide)
+</code></pre></div></p>
+<p>Cas a=1 et b=1 : double swap
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>[a, b]
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>swap
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>[b, a]
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>swap
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>[a, b]
+</code></pre></div></p>
+<p>Pour récupérer le résultat :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>si a est avant b le résultat du XOR est 0
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>si b est avant a le résultat du XOR est 1
+</code></pre></div></p>
+<p>Le logiciel qui va faire ça s'appelle le "Branching Program" et ces suites de permutation peuvent être representées par des matrices.</p>
+<h3 id="randomisation-de-kilian">Randomisation de Kilian</h3>
+<p>L'objectif de cette méthode va être de rajouter des actions inutiles qui vont créent du bruit et se résoudre au fur et à mesure.</p>
+<p>Par exemple :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>a XOR b
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>0   0   ne rien faire
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>1   0   swap
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>0   1   swap
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>1   1   swap + useless_rotation + swap + fix_useless_rotation
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Cas a=1 et b=1
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>[a, b, c, d]
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>swap
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>[b, a, c, d]
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>useless_rotation
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>[d, c, a, b]
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>swap
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>[c, d, a, b]
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>fix_useless_rotation
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>[b, a, d, c]
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>swap
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>[a, b, d, c]
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>si a est avant b le résultat du XOR est 0
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>si b est avant a le résultat du XOR est 1
+</code></pre></div></p>
+<h3 id="ggh13">GGH13</h3>
+<hr />
+<p>Pour expliquer GGH13 le plus simple est d'utiliser des nombres entier. Ce modèle est appelé CLT13 la logique interne est identique mais le véritable GGH13 utilise des "polynômes", des "réseaux euclidiens" et l'opération modulo devient une "réduction par rapport à un grand polynôme".</p>
+<p>La raison de l'ajout de cette complexité est l'algorithme d'Euclide qui permet de trouver les diviseurs communs entre plusieurs nombres et donc de déduire les variables internes.</p>
+<hr />
+<p>La randomisation de Kilian nous donne des matrices "brouillées". Avec GGH13 on va réaliser un "encodage homomorphe gradué" mais les résultats qui vont en sortir une fois déchiffrés seront corrects. On bénéficie ici des caractéristiques homomorphes du chiffrement.</p>
+<p>Les matrices obtenues après l'encodage GGH13 vont respecter la caractéristique suivante :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>chiffre(M1) * chiffre(M2) = chiffre(M1 * M2)
+</code></pre></div></p>
+<h4 id="ajouter-du-bruit-et-pouvoir-le-retirer">Ajouter du bruit et pouvoir le retirer</h4>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>value_clear = la véritable valeur mathématique
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>e = value_clear + un bruit initial
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>g = secret
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>r = bruit aléatoire
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>z = autre secret (sert à gérer les niveaux)
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>q = grand modulo (évite que les résultat grandissent trop (même problématique que les tables de hashage))
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>e = 5
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>g = 3
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>value_clear = e mod g
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>value_clear = 5 mod 3
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>value_clear = 2
+</code></pre></div>
+<em>La partie difficile à comprendre ici c'est que la véritable valeur avec laquel on va faire les calcules (2) est contenu à l'intérieur de e et pourra être récupéré via e mod g.</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>r = 4
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>value_bruité = e + r * g
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>             = 5 + 4 * 3 
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>             = 17
+</code></pre></div>
+<p>Malgré ce calcul si on possède g on peut retrouver e mod g et donc retirer le bruit :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>value_clear = value_bruité mod g
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>            = 17 mod 3
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>            = 2
+</code></pre></div>
+Au final on retombe sur notre véritable value_clear, ce qui veut dire que <code>e (mod g)</code> == <code>e + r * g (mod g)</code>.</p>
+<h4 id="diviser-par-un-secret">Diviser par un secret</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>value_bruité = 17
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>z = 2
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>q = 101
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>value_chiffre = value_bruité * z⁻¹ mod q
+</code></pre></div>
+<p>z⁻¹ dans un autre context pourrait juste vouloir dire 2 puissance -1 (0.5), mais ce calcul donne un nombre à virgule hors on a besoin de faire un modulo de cette valeur ce qui nécessite un entier. Le véritable sens de ce calcul est : "Quel est le nombre entier qui, lorsqu'on le multiplie par z, donne un reste de 1 quand on le divise par q ?"
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>(x * z) % q = 1
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>(x * 2) % 101 = 1
+</code></pre></div></p>
+<p>Comme dans ce cas q est un nombre premier on peut appliquer le théorème de Fermat :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>z⁻¹ = z ** q-2 (mod q)
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>z⁻¹ = 2⁹⁹ (mod 101) = ?
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>2 ** 99 = 633825300114114700748351602688
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>633825300114114700748351602688 % 101 = 51
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>value_chiffre = value_bruité * 51
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>value_chiffre = 17 * 51
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>value_chiffre = 867
+</code></pre></div>
+<p>Pour déchiffrer on fait :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>value_bruité = value_chiffre * z mod q
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>value_bruité = 867 * 2 mod 101
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>value_bruité = 17
+</code></pre></div></p>
+<p>Puis, comme dans la partie 1, on enlève le bruit avec g :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>value_clear = value_bruité mod g
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>value_clear = 17 mod 3
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>value_clear = 2
+</code></pre></div></p>
+<p><strong>Mais chiffrer et dechiffrer ici ce n'est pas la finalité, on veut pouvoir faire des calcules avec nos valeurs chiffré et obtenir des résultats correct une fois déchiffré.</strong> cf : chiffrement homomorphe</p>
+<h4 id="additions">Additions</h4>
+<p>y1 et y2 vont contenir nos deux valeur bruité et chiffré :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>e1 = 5
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>r1 = 4
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>e2 = 6
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>r2 = 7
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>g = 3
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>z = 2
+<a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>q = 101
+<a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>
+<a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a>y1_value = e mod g
+<a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>         = 5 mod 3
+<a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a>         = 2
+<a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a>
+<a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a>y1 = (e1 + r1*g) * z⁻¹ mod q
+<a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a>   = (5 + 4*3) * 2⁻¹ mod 101
+<a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>   = 867 mod 101
+<a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a>   = 59
+<a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a>
+<a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>y2_value = e mod g
+<a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>         = 6 mod 3
+<a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a>         = 0
+<a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a>
+<a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a>y2 = (e2 + r2*g) * z⁻¹ mod q
+<a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a>   = (6 + 7*3) * 2⁻¹ mod 101
+<a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a>   = 39 * 51
+<a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a>   = 1989 mod 101
+<a id="__codelineno-22-28" name="__codelineno-22-28" href="#__codelineno-22-28"></a>   = 64
+</code></pre></div></p>
+<p>On peut les additionners ainsi :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>y1 + y2 = y1 + y2 (mod q)
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>        = 59 + 64 (mod 101)
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>        = 123 (mod 101)
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>        = 22
+</code></pre></div></p>
+<p>Pour  déchiffrer le résultat on retire z⁻¹ :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>result_bruité = value_chiffre * z mod q
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>              = 22 * 2 mod 101 = 44
+</code></pre></div></p>
+<p>Enfin on peu retirer le bruit :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>result_clear = result_bruité mod g
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>             = 44 mod 3 = 2
+</code></pre></div>
+Ce qui est correct car y1=2 et y2=0.</p>
+<h4 id="multiplication">Multiplication</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>e1 = 5
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>r1 = 4
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>y1_value = 5 mod 3
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>         = 2
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>e2 = 6
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>r2 = 7
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>y1_value = 6 mod 3
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>         = 0
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>g = 3
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>z = 2
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>q = 1009 (q doit être plus grand que pour les additions sinon on a des collisions)
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>On recalcule z⁻¹ pour q=1009 :
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>z⁻¹ = 2 ** q-2 % 1009
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>    = 2 ** 1007 % 1009
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a>    = 505
+<a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a>
+<a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a>y1_chiffre = (e1 + r1*g) * z⁻¹ mod q
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>   = (5 + 4*3) * 505 mod 1009
+<a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a>   = 17 * 505 mod 1009
+<a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a>   = 8585 mod 1009
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>   = 513
+<a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a>
+<a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a>y2_chiffre = (e2 + r2*g) * z⁻¹ mod q
+<a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a>   = (6 + 7*3) * 505 mod 1009
+<a id="__codelineno-26-26" name="__codelineno-26-26" href="#__codelineno-26-26"></a>   = 27 * 505 mod 1009
+<a id="__codelineno-26-27" name="__codelineno-26-27" href="#__codelineno-26-27"></a>   = 13635 mod 1009
+<a id="__codelineno-26-28" name="__codelineno-26-28" href="#__codelineno-26-28"></a>   = 518
+</code></pre></div>
+<p>On peut les multipliers :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>y1 * y2 = 513 * 518 (mod 1009)
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>        = 265734 (mod 1009)
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>        = 367
+</code></pre></div></p>
+<p>Pour récupérer le résultat après déchiffrement : Comme on a fait une mutliplication on "augmente le niveau". C'est pour ça qu'on parle d'une méthode de chiffrement par niveaux. On incrémente la puissance de z pour chaque multiplication :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>z = 2
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>z² = 4
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>result_bruité = value_chiffre * z² mod q
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>             = 367 * 4 mod 1009
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>            = 1468 mod 1009
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>            = 459
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>result_clear = result_bruité mod g
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>             = 459 mod 3 
+<a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>             = 0
+<a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a>
+<a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a>2 * 0 = 0 c&#39;est donc le bon résultat.
+</code></pre></div></p>
+<h3 id="zero-test">Zero-test</h3>
+<p>Pour rappel l'objectif est de donner un programme à un utilisateur pour qu'il l'exécute, sans qu'il ne puisse jamais comprendre comment le programme fonctionne ni lire ses variables internes.</p>
+<p>Dans notre exemple on déchiffre le résultat finale avec z et g mais c'est pas l'objectif du schéma GGHRSW, car si l'utilisateur possède z et g il peut aussi déchiffrer toutes les couches du programme. L'objectif c'est que l'utilisateur puisse juste savoir si, par exemple, le mot de passe qu'il donne au programme est correct (1) ou non (0).</p>
+<p>Grâce au théorème de Barrington, on s'arrange pour que si le calcul est vrai, la multiplication de toutes nos matrices donne une "matrice identité" (matrice qui multipliée à une autre ne change rien (l'équivalent du *1 ou +1 pour la multiplication et l'addition)).
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>I2 = [[1, 0],
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>      [0, 1]]
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>I3 = [[1, 0, 0],
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>      [0, 1, 0],
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>      [0, 0, 1]]
+</code></pre></div></p>
+<p>Si le calcul est faux, la multiplication donne n'importe quelle autre matrice.</p>
+<p>Dans le cas du test de mot de passe, l'utilisateur va donc entrer le sien dans le programme et obtenir une matrice M_result. On veut savoir si M_result est égale à la matrice identité M_I (Le créateur du programme a fourni à l'avance une version chiffrée de l'M_I enc(M_I) pour permettre ce calcul). On réalise donc une soustraction homomorphe : 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>M_diff = M_result - enc(M_I)
+</code></pre></div></p>
+<p>M_diff est toujours bruité, il faut donc multiplier les éléments de M_diff par le paramètre p_zt (le tout avec un modulo q). Si le résultat est petit c'est que ce qui se cache à l'intérieur de la matrice est 0. Sinon c'est que le mot de passe est faux.</p>
+<p>Qu'est ce que p_zt ? Dans un système de chiffrement classique il faut les clés pour récupérer le résultat. Ici on veut pas rendre les clé publique et on veut juste tester si le résultat est 0. Le créateur du programme génère p_zt ainsi :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>p_zt = h * (z**k) * g ** -1 (mod q)
+</code></pre></div></p>
+<p>Exemple : 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>g = 3 (le secret qui cache la valeur)
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>z = 2 (le secret des niveaux)
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>q = 1009 (le grand modulo)
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>h = 5 (le petit bruit du paramètre de test)
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>k = 2 (on imagine qu&#39;on a fait une multiplication, on est au niveau 2)
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>z ** k = 2 ** 2 
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>       = 4
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a>p_zt = 5 * 4 * (g ** -1) (mod 1009)
+<a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>
+<a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>g ** -1 mod 1009 = pow(3, -1, 1009) = 673
+<a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a>
+<a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a>     = 5 *4 * 673 (mod 1009)
+<a id="__codelineno-32-15" name="__codelineno-32-15" href="#__codelineno-32-15"></a>     = 13460 (mod 1009)
+<a id="__codelineno-32-16" name="__codelineno-32-16" href="#__codelineno-32-16"></a>     = 343
+</code></pre></div></p>
+<p>Comment faire le test avec p_zt = 343 ?
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>Cas où la valeur est 0 (mot de passe correct) :
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>*et où le bruit accumulé = 2
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>z ** -2 = (z ** (q-2)) ** 2 (mod q)
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>        = 2 ** (1009-3) (mod 1009)
+<a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>        = 2 ** 1006 (mod 1009)
+<a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>        = 757
+<a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>
+<a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>c = (0 + bruit * g) * z ** -k (mod q)
+<a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>  = (0 + 2 * 3) * z ** -k (mod q)
+<a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>  = 6 * 757 (mod 1009)
+<a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>  = 4542 (mod 1009)
+<a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>  = 506
+<a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>
+<a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a>test = 506 * 343 (mod 1009)
+<a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a>     = 173558 (mod 1009)
+<a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a>     = 10
+</code></pre></div>
+10 est considéré comme petit dans ce context, surtout par rapport à un cas ou la valeur contenu dans c n'est pas 0 :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>Cas ou la valeur est 6 (mot de passe incorrect) :
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>*et ou le bruit accumulé = 2
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>c = (6 + 2 * 3) * 757 (mod 1009)
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>  = 7 * 757 (mod 1009)
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>  = 254
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>test = 254 * 343 (mod 1009)
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>     = 348
+</code></pre></div></p>
+<p>La raison pour laquelle le test fonctionne c'est que le résultat est un multiple de g, et que quand on le multiplie avec p_zt (lui même multiple de g), le modulo par g de ce résultat est 0. Il ne reste que le petit bruit dont est constitué le nombre finale.</p>
+<h2 id="limitations">Limitations</h2>
+<p>Transformer un programme réel en circuit NC1 est extremement difficile et il n'existe pas de méthode générique permettant de transformer du C en circuit NC1.</p>
+<p>GGHRSW n'existe que sous la forme d'implémentations expérimentales. De plus il utilise l'outil cryptographique GGH13 qui est vulnérables à plusieurs attaques.</p>
+<p>Zeroizing Attack :
+   Si l'attaquant réussit à récupérer plusieurs encodages de la valeur 0 (il rejoue le programme). En appliquant p_zt sur ces valeurs il obtient une collection de valeur qui ont toutes la forme (bruit * h). En accumulant ces résultats, l'attaquant peut "isoler" les secrets.</p>
+<p>Attaque par Annihilation :
+   Consiste à trouver un moyen de multiplier des éléments entre eux pour que le "bruit" s'annule.</p>
+<p>Attaques sur les "Branching Programs" : Subfield Attack :
+   Des "combinaisons interdites" permettent de créer des zéros là où il ne devrait pas y en avoir, révélant ainsi la logique interne du circuit.</p>
+<h2 id="jls">JLS</h2>
+<p>Présenté en 2021 par Aayush Jain, Huijia Lin et Amit Sahai. Cet algorithme n'a pas été cassé à ce jours mais reste difficilement utilisable en raison de la taille et du temps de calcul nécessaire.</p>
+<p>Les étapes différent de GGHRSW, notamment car celui-ci n'utilise plus GGH13 :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>1. Le transformer en circuit booléen
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>2. Branching program
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>3. PRF et FE
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>4. Zero test
+</code></pre></div></p>
+<h3 id="prf-pseudo-random-function">PRF (Pseudo random function)</h3>
+<p>Il s'agit d'un outil cryptographique qui permet de générer à partir d'une donnée et d'une clé un résultat pseudo aléatoire unique. C'est une sorte de fonction de hashage, mais avec une table unique par clé, si bien que seul celui qui a strictement la clé et la donné peut généré le pseudo aléatoire.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>PRF(clé_secrète, donnée) : pseudo aléatoire
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>PRF(&quot;suPersecret&quot;, &quot;hello&quot;) : 48568597578
+</code></pre></div>
+C'est utilisé pour masquer les valeurs interne du programme à chaque étape intermédiaire du chemin formé par le branching program.</p>
+<h3 id="fe-functional-encryption">FE (Functional Encryption)</h3>
+<p>La fonction FE prend en entrée l'état masqué actuel. Elle retire le masque actuel en calculant localement la bonne valeur du PRF. Puis effectue le calcul de transition pour atteindre l'état suivant. Enfin elle applique le nouveau masque pseudo-aléatoire (généré par le PRF pour l'état suivant).</p>
+<p>Comment FE retire t'il le masque ? Le programme utilise une clé fonctionnelle nommé $sk_f$ (sk petit f). La clé du PRF n'est écrite nulle part en clair. Elle est "diluée" dans les mathématiques de la fonction.</p>
+<p>Enfaite tout se fait dans la foulée, c'est en faisant le calcule que FE "déchiffre" la valeur, mais on ne peut pas juste "déchiffrer", faire le calcule et "rechiffrer". C'est tout ou rien et ce parce que les instructions de déchiffrement et des calculs sont mixés.</p>
+<h3 id="zero-test_1">Zero test</h3>
+<p>Ici le problème vient justement du caractère mixé de la clé. Car si on ne peut pas juste déchiffrer comment récupérer le résultat final ? Au lieu de tester si un résultat vaut zéro, on vérifie si le chemin parcouru dans le Branching Program arrive sur l'état valide ou non.</p>
+<h1 id="experimentations-personnelles">Expérimentations personnelles</h1>
+<p>Ma première réaction quand j'entendis parler de cette problématique, fut de réaliser un stockage des résultats du programme pour chaque entrée possible (par exemple sur 10 caractères ascii).</p>
+<p>Plutôt que d'essayer de camoufler la logique, il faudrait trouver un moyen de calculer, stocker et récupérer les résultats de manière optimisée.</p>
+<p>Bien sur l'explosion combinatoire du nombre de possibilités de solutions possibles à la suite d'un calcul, rend la méthode brutale (stocker pour chaque possibilité impossible). Cependant peut-être peut-on stocker quelque chose entre les résultats et la logique, une sorte d'intermédiaire qui nécessiterait un calcul partiel.</p>
+<h2 id="utiliser-des-courbes">Utiliser des courbes</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">5</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+</code></pre></div>
+<p>Ici dans le cas d'une simple addition on est pas obligé de stocker les 1000 résultats, on peut récupérer le premier et le dernier et ainsi déduire l'ensemble des autres résultats :</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">first_i</span><span class="p">,</span> <span class="n">last_i</span><span class="p">,</span> <span class="n">first_res</span><span class="p">,</span> <span class="n">last_res</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>    <span class="n">courbe</span> <span class="o">=</span> <span class="p">(</span><span class="n">last_res</span> <span class="o">-</span> <span class="n">first_res</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">last_i</span> <span class="o">-</span> <span class="n">first_i</span><span class="p">)</span>
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>    <span class="k">return</span>  <span class="n">courbe</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">first_i</span><span class="p">)</span> <span class="o">+</span> <span class="n">first_res</span>
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>
+<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a><span class="n">first_i</span><span class="p">,</span> <span class="n">last_i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span>
+<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="n">first_res</span><span class="p">,</span> <span class="n">last_res</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1005</span>
+<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>
+<a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a><span class="k">assert</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">first_i</span><span class="p">,</span> <span class="n">last_i</span><span class="p">,</span> <span class="n">first_res</span><span class="p">,</span> <span class="n">last_res</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span> <span class="o">==</span> <span class="mf">505.0</span><span class="p">)</span>
+</code></pre></div>
+<img alt="" src="../indistinguishability_obfuscation/courbe_1.png" /></p>
+<p>Cette méthode fonctionne aussi pour les exponentielles, (il faut juste sauvegarder un point en plus) :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">**</span> <span class="n">a</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Généré par IA</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">func_obf</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">y2</span> <span class="o">/</span> <span class="n">y1</span><span class="p">)</span>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>    <span class="n">a</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span> <span class="o">**</span> <span class="n">x1</span><span class="p">)</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>
+<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">**</span> <span class="n">x</span><span class="p">)</span>
+<a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>
+<a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+<a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a><span class="n">y1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">**</span> <span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a><span class="n">y2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a><span class="n">y3</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span>
+<a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a>
+<a id="__codelineno-40-13" name="__codelineno-40-13" href="#__codelineno-40-13"></a><span class="k">assert</span><span class="p">(</span><span class="n">func_obf</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mf">6.0</span><span class="p">)</span>
+<a id="__codelineno-40-14" name="__codelineno-40-14" href="#__codelineno-40-14"></a><span class="k">assert</span><span class="p">(</span><span class="n">func_obf</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mf">18.0</span><span class="p">)</span>
+<a id="__codelineno-40-15" name="__codelineno-40-15" href="#__codelineno-40-15"></a><span class="k">assert</span><span class="p">(</span><span class="n">func_obf</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mf">486.0</span><span class="p">)</span>
+<a id="__codelineno-40-16" name="__codelineno-40-16" href="#__codelineno-40-16"></a><span class="k">assert</span><span class="p">(</span><span class="n">func_obf</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span> <span class="o">==</span> <span class="mf">3706040377703682.0</span><span class="p">)</span>
+</code></pre></div>
+<img alt="" src="../indistinguishability_obfuscation/courbe_2.png" /></p>
+<p>Le problème c'est qu'on ne va pas faire une courbe pour chaque étape du calcul, ça resterait facile à reverse. Si on fait une courbe pour tout le programme on va vite être limité étant donné que certain d'entre eux ne sont pas prévisible via des courbes.</p>
+<p>Avec cette méthode on peut surement obfusquer de nombreux programme mais pas des cryptographiques, hors c'est quand même un peu ça le sujet. En effet, si on essaie de faire ça avec une fonction de hashage, on voit bien que ça va être compliqué de stocker une représentation graphique plus légère que si on devait stocker tous les résultats. D'autant plus que comme le montre l'échelle, aucune corrélation n'existe entre le mot et son hash (c'est le but en même temps) :
+<img alt="" src="../indistinguishability_obfuscation/plan_md5.png" />
+<em>script et graphique généré avec IA</em></p>
+<p>On ne peut pas stocker plus efficacement SAUF si on accepte une légère (potentiellement énorme en faite) erreur. Par exemple ici il y a une ligne de vert presque progressive :
+<img alt="" src="../indistinguishability_obfuscation/plan_md5_zoom.png" /></p>
+<h2 id="utiliser-des-chemins">Utiliser des chemins</h2>
+<p>Utiliser une sorte de ligne (1d) ou une réprésentation sur un plan (2d), pour éviter d'avoir à faire le test final, mais récupérer le chemin parcouru à chaque étape du calcul.</p>
+<p>Exemple : 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>    <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">6</span>
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>    <span class="n">c</span> <span class="o">+=</span> <span class="n">a</span>
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>    <span class="n">c</span> <span class="o">+=</span> <span class="mi">8</span>
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">740</span><span class="p">:</span>
+<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>        <span class="k">return</span> <span class="kc">True</span>
+<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>    <span class="k">return</span> <span class="kc">False</span>
+<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>
+<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a><span class="n">func</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># True</span>
+</code></pre></div></p>
+<p>Plutôt que de faire le test final qui révellerais la valeur attendu (il faudrait juste faire quelque calcule pour la récupérer), on peut faire passer l'entré a par une suite de calcule et vérifier le chemin qu'elle prend sur la ligne.
+Il se trouve que même si on ne divise pas jusqu'a atteindre le nombre exacte (740), le chemin emprunté par la valeur 3 est unique ce qui permet de valider le "mot de passe" sans le test final.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>    <span class="c1"># taille de la ligne 0, 1000</span>
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>    <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">6</span>
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">:</span>
+<a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>        <span class="n">res_first_circle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&gt;500&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a>        <span class="n">res_first_circle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;500&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>
+<a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a>    <span class="n">c</span> <span class="o">+=</span> <span class="n">a</span>
+<a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">750</span><span class="p">:</span>
+<a id="__codelineno-42-12" name="__codelineno-42-12" href="#__codelineno-42-12"></a>        <span class="n">res_second_circle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&gt;750&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-13" name="__codelineno-42-13" href="#__codelineno-42-13"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-42-14" name="__codelineno-42-14" href="#__codelineno-42-14"></a>        <span class="n">res_second_circle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;750&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-15" name="__codelineno-42-15" href="#__codelineno-42-15"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">250</span><span class="p">:</span>
+<a id="__codelineno-42-16" name="__codelineno-42-16" href="#__codelineno-42-16"></a>        <span class="n">res_second_circle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&gt;250&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-17" name="__codelineno-42-17" href="#__codelineno-42-17"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-42-18" name="__codelineno-42-18" href="#__codelineno-42-18"></a>        <span class="n">res_second_circle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;250&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-19" name="__codelineno-42-19" href="#__codelineno-42-19"></a>
+<a id="__codelineno-42-20" name="__codelineno-42-20" href="#__codelineno-42-20"></a>    <span class="c1"># ici pour plus de simplicité on va abandonner les chemins &lt;500</span>
+<a id="__codelineno-42-21" name="__codelineno-42-21" href="#__codelineno-42-21"></a>
+<a id="__codelineno-42-22" name="__codelineno-42-22" href="#__codelineno-42-22"></a>    <span class="n">c</span> <span class="o">+=</span> <span class="mi">8</span>
+<a id="__codelineno-42-23" name="__codelineno-42-23" href="#__codelineno-42-23"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">650</span><span class="p">:</span>
+<a id="__codelineno-42-24" name="__codelineno-42-24" href="#__codelineno-42-24"></a>        <span class="n">res_third_circle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&gt;650&quot;</span><span class="p">)</span>
+<a id="__codelineno-42-25" name="__codelineno-42-25" href="#__codelineno-42-25"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-42-26" name="__codelineno-42-26" href="#__codelineno-42-26"></a>        <span class="n">res_third_circle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;650&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Evidemment on peut toujours faire le chemin inverse si on réalise le test finale ainsi :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="k">if</span> <span class="n">res_first_circle</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&gt;500&#39;</span><span class="p">]</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>    <span class="k">if</span> <span class="n">res_second_circle</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;750&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;250&#39;</span><span class="p">]</span>
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>        <span class="k">if</span> <span class="n">res_third_circle</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&gt;650&#39;</span><span class="p">]:</span>
+</code></pre></div></p>
+<p>On va donc former un hash au fur et a mesure constitué du chemin emprunté :
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>    <span class="n">chemin</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>    <span class="c1"># taille de la ligne 0, 1000</span>
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>    <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">6</span>
+<a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">:</span>
+<a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a>        <span class="n">chemin</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="n">md5</span><span class="p">(</span><span class="s2">&quot;&gt;500&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a>        <span class="n">chemin</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="n">md5</span><span class="p">(</span><span class="s2">&quot;&lt;500&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a>
+<a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a>    <span class="n">c</span> <span class="o">+=</span> <span class="n">a</span>
+<a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">750</span><span class="p">:</span>
+<a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a>        <span class="n">chemin</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="n">md5</span><span class="p">(</span><span class="s2">&quot;&gt;750&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-14" name="__codelineno-44-14" href="#__codelineno-44-14"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-44-15" name="__codelineno-44-15" href="#__codelineno-44-15"></a>        <span class="n">chemin</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="n">md5</span><span class="p">(</span><span class="s2">&quot;&lt;750&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-16" name="__codelineno-44-16" href="#__codelineno-44-16"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">250</span><span class="p">:</span>
+<a id="__codelineno-44-17" name="__codelineno-44-17" href="#__codelineno-44-17"></a>        <span class="n">chemin</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="n">md5</span><span class="p">(</span><span class="s2">&quot;&gt;250&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-18" name="__codelineno-44-18" href="#__codelineno-44-18"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-44-19" name="__codelineno-44-19" href="#__codelineno-44-19"></a>        <span class="n">chemin</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="n">md5</span><span class="p">(</span><span class="s2">&quot;&lt;250&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-20" name="__codelineno-44-20" href="#__codelineno-44-20"></a>
+<a id="__codelineno-44-21" name="__codelineno-44-21" href="#__codelineno-44-21"></a>    <span class="c1"># ici pour plus de simplicité on va abandonner les chemin &lt;500</span>
+<a id="__codelineno-44-22" name="__codelineno-44-22" href="#__codelineno-44-22"></a>
+<a id="__codelineno-44-23" name="__codelineno-44-23" href="#__codelineno-44-23"></a>    <span class="n">c</span> <span class="o">+=</span> <span class="mi">8</span>
+<a id="__codelineno-44-24" name="__codelineno-44-24" href="#__codelineno-44-24"></a>    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">650</span><span class="p">:</span>
+<a id="__codelineno-44-25" name="__codelineno-44-25" href="#__codelineno-44-25"></a>        <span class="n">chemin</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="n">md5</span><span class="p">(</span><span class="s2">&quot;&gt;650&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-26" name="__codelineno-44-26" href="#__codelineno-44-26"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-44-27" name="__codelineno-44-27" href="#__codelineno-44-27"></a>        <span class="n">chemin</span> <span class="o">=</span> <span class="n">chemin</span> <span class="o">+</span> <span class="n">md5</span><span class="p">(</span><span class="s2">&quot;&lt;650&quot;</span><span class="p">)</span>
+<a id="__codelineno-44-28" name="__codelineno-44-28" href="#__codelineno-44-28"></a>
+<a id="__codelineno-44-29" name="__codelineno-44-29" href="#__codelineno-44-29"></a>    <span class="n">res</span> <span class="o">=</span> <span class="n">md5</span><span class="p">(</span><span class="n">chemin</span><span class="p">)</span>
+<a id="__codelineno-44-30" name="__codelineno-44-30" href="#__codelineno-44-30"></a>
+<a id="__codelineno-44-31" name="__codelineno-44-31" href="#__codelineno-44-31"></a>    <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="s2">&quot;0c51d844c0193119a5b59f3d773da610&quot;</span><span class="p">:</span>
+<a id="__codelineno-44-32" name="__codelineno-44-32" href="#__codelineno-44-32"></a>        <span class="k">return</span> <span class="kc">True</span>
+<a id="__codelineno-44-33" name="__codelineno-44-33" href="#__codelineno-44-33"></a>    <span class="k">return</span> <span class="kc">False</span>
+<a id="__codelineno-44-34" name="__codelineno-44-34" href="#__codelineno-44-34"></a>
+<a id="__codelineno-44-35" name="__codelineno-44-35" href="#__codelineno-44-35"></a><span class="n">func</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># True</span>
+<a id="__codelineno-44-36" name="__codelineno-44-36" href="#__codelineno-44-36"></a><span class="n">func</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># True</span>
+<a id="__codelineno-44-37" name="__codelineno-44-37" href="#__codelineno-44-37"></a><span class="n">func</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># True</span>
+</code></pre></div></p>
+<p>Cette exemple reste minimaliste il faudrait trouver un moyen de généraliser ce découpage de la ligne de façon automatique et plus précise. Un modèle en deux dimension découpé à chaque passage en quart serait également peut-être plus efficace.</p>
+<p>Si au lieu d'avoir une ligne de taille 1000 on met une ligne de taille 1 millions le nombre de hash à calculer pour déduire la clé serait trop longue.</p>
+<p>En l'état actuelle ça n'apporte rien par rapport à comparer un mdp avec son hash, l'objectif principal de l'iO reste de cacher la valeur des calculs. Mais l'interet des chemins c'est qu'on a pas besoin d'avoir exactement le bon résultat. En effet 3.1 et 2.9 renvoient également True si on les passe dans le programme actuel. C'est peut-être un avantage.</p>
+<h2 id="tentative-numero-3">Tentative numéro 3</h2>
+<p>En cours...</p>
+<h4 id="sources">Sources</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>RCA : https://www.101computing.net/binary-additions-using-logic-gates/
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>CLA : https://en.wikipedia.org/wiki/Carry-lookahead_adder
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>GGHRSW : https://eprint.iacr.org/2013/451.pdf
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>JLS : https://eprint.iacr.org/2020/1003.pdf
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
